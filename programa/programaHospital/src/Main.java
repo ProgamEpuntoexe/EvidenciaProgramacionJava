@@ -54,9 +54,6 @@ class recepcion{
         nombreRecepcionista = nombreLocal;
         presupuesto = presupuestoLocal;
     }
-    public void agendarCita(){
-
-    }
 }
 //Clase edificio
 class edificio{
