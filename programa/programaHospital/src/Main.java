@@ -100,6 +100,12 @@ class programa{
             return false;
         }
     }
+    public void mostrarListaDoctores(edificio hospital){
+        doctor idea = new doctor("Dr","Medicina",2,1000);
+        for (int i = 0; i < hospital.listaDoctores.size(); i++){
+            System.out.println(i+". "+hospital.listaDoctores.get(0).nombre);
+        }
+    }
     public void darAltaDoctor(edificio hospital, int idDoctor){
         //Si hay doctores
         if (!hospital.listaDoctores.isEmpty()){
