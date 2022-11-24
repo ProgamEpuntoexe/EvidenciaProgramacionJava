@@ -179,15 +179,39 @@ class programa{
             }
         }
     }
-    public void darAltaDoctor(edificio hospital, int idDoctor){
-        //Si hay doctores
-        if (!hospital.listaDoctores.isEmpty()){
-            hospital.listaDoctores.indexOf(idDoctor);
-        }else{
-            System.out.println("No hay doctores");
+    public void darAltaDoctor(edificio hospital, int idDoctor) throws IOException{
+        hospital.listaDoctores.remove(idDoctor-1);
+        File archivo = new File("datosGuardados/datosDoctores.txt");
+        if (archivo.exists()) {
+            if (!archivo.exists()) {
+                archivo.createNewFile();
+            }
+            FileWriter fw = new FileWriter(archivo);
+            PrintWriter pw = new PrintWriter(fw);
+            for (int i = 0; i < hospital.listaDoctores.size(); i++) {
+                pw.println(hospital.listaDoctores.get(i).nombre + "%-%" + hospital.listaDoctores.get(i).especialidad + "%-%" + hospital.listaDoctores.get(i).experiencia + "%-%" + hospital.listaDoctores.get(i).presupuesto + "%-%"+true+"%-%");
+            }
+            pw.close();
         }
+        eliminarCitaDoctor(hospital, idDoctor);
     }
-    private eliminarCitaDoctor
+    private void eliminarCitaDoctor(edificio hospital, int idDoctor) throws IOException{
+        for (int i = 0; i < hospital.listaCitas.size(); i++){
+            if (hospital.listaCitas.get(i).doctorAtender == idDoctor-1){
+                hospital.listaCitas.remove(i);
+            }
+        }
+        File archivo = new File("datosGuardados/datosCitas.txt");
+        if (!archivo.exists()) {
+            archivo.createNewFile();
+        }
+        FileWriter fw = new FileWriter(archivo);
+        PrintWriter pw = new PrintWriter(fw);
+        for (int i = 0; i < hospital.listaCitas.size(); i++) {
+            pw.println(hospital.listaCitas.get(i).pacienteAtender+"%-%"+hospital.listaCitas.get(i).doctorAtender+"%-%"+hospital.listaCitas.get(i).horarioMinutos+"%-%"+hospital.listaCitas.get(i).horarioHoras+"%-%"+hospital.listaCitas.get(i).numeroMes+"%-%"+hospital.listaCitas.get(i).numeroDia+"%-%"+hospital.listaCitas.get(i).numeroYear+"%-%");
+        }
+        pw.close();
+    }
     public void agendarCita(edificio hospital) throws IOException{
         BufferedReader entrada = new BufferedReader(new InputStreamReader(System.in));
         String opcion = "";
@@ -236,7 +260,6 @@ class programa{
                 hospital.cambioDisponibilidad(idDoctor-1,false);
                 guardarCita(hospital);
                 guardarPaciente(hospital);
-
             }catch(Exception e){
                 System.out.println("Ocurrio un error");
             }
@@ -271,7 +294,7 @@ class programa{
         }
         pw.close();
     }
-    public void eliminarCita(edificio Hospital) throws IOException{
+    public void eliminarCita(edificio Hospital, int idDoctor) throws IOException{
 
     }
     public void mostrarCitas(edificio Hospital) throws IOException{
@@ -342,8 +365,9 @@ public class Main {
                 System.out.println("1. Agendar una cita");
                 System.out.println("2. Dar de alta a un doctor");
                 System.out.println("3. Dar de alta a un paciente");
-                System.out.println("4. Agendar una cita");
-                System.out.println("5. Cerrar Sesion");
+                System.out.println("4. ver citas");
+                System.out.println("5. Eliminar una cita");
+                System.out.println("6. Cerrar Sesion");
                 System.out.print("Ingresar el numero de opcion: ");
                 opciones = entrada.readLine();
                 if (opciones.isEmpty()){
@@ -357,12 +381,23 @@ public class Main {
                             break;
                         }
                         case '2':{
+                            pagina.mostrarListaDoctores(hospital);
+                            try{
 
+                            }catch (Exception e){
+                                System.out.println("Hubo un error al dar de alta");
+                            }
+                            //pagina.darAltaDoctor();
+                            break;
+                        }
+                        case '4':{
+                            pagina.mostrarCitas(hospital);
+                            entrada.readLine();
                             break;
                         }
                     }
                 }
-            }while(opciones.charAt(0) != '5');
+            }while(opciones.charAt(0) != '6');
         }else{
             System.out.println("Error al intentar entrar");
         }
