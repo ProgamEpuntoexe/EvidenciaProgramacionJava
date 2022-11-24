@@ -83,16 +83,6 @@ class programa{
         nombreIntroducido = entrada.readLine();
         System.out.print("Ingrese el su contraseña: ");
         passwordIntroducido = entrada.readLine();
-        //Para introducir los datos
-        if (verificar(datosUsuario,nombreIntroducido,passwordIntroducido)){
-            //Verifica si el usuario esta autorizado o no
-            if (datosUsuario.autorizado == true){
-                System.out.println("Acceso al usuario consedido");
-                sesionActiva = true;
-            }else{
-                System.out.println("El usuario no esta autorizado");
-            }
-        }
     }
 }
 //Clase Usuario
