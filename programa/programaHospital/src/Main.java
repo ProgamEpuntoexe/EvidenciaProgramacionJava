@@ -73,15 +73,14 @@ class programa{
     public programa(){
 
     }
-    public void acceder(usuario datosUsuario) throws IOException{
-        //HOLA
-        boolean sesionActiva = false;
-        String nombreIntroducido = "";
-        String passwordIntroducido = "";
-        System.out.print("Ingrese el nombre de usuario: ");
-        nombreIntroducido = entrada.readLine();
-        System.out.print("Ingrese el su contraseña: ");
-        passwordIntroducido = entrada.readLine();
+    //Dar de alta a un paciente si este esta sano
+    public void darAltaPaciente(edificio hospital, int idPaciente){
+        //Si hay pacientes
+        if (!hospital.listaPacientes.isEmpty()){
+            hospital.listaPacientes.remove(idPaciente);
+        }else{
+            System.out.println("No hay pacientes");
+        }
     }
 }
 //Clase Usuario
