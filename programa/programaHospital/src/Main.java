@@ -90,7 +90,7 @@ class programa{
         }
     }
     private boolean verificar(usuario datosUsuario, String nombreIntroducido, String passwordIntroducido){
-        if ((datosUsuario.nombreUsuario == nombreIntroducido) & (datosUsuario.password == passwordIntroducido)){
+        if ((datosUsuario.nombreUsuario.equals(nombreIntroducido)) & (datosUsuario.password.equals(passwordIntroducido))){
             return true;
         }else{
             return false;
@@ -139,8 +139,24 @@ class usuario{
 }
 //Clase MAIN
 public class Main {
-    public static void main(String[] args) {
-        usuario personaUtilizaPrograma = new usuario("123456789","RosarioVillaMosa");
+    public static void main(String[] args) throws IOException {
         
+        usuario personaUtilizaPrograma = new usuario("123456789","RosarioVillaMosa");
+        programa pagina = new programa();
+        String opciones = "";
+        System.out.println(personaUtilizaPrograma.nombreUsuario);
+        System.out.println(personaUtilizaPrograma.password);
+        if (pagina.obtenerAcceso(personaUtilizaPrograma)){
+            do{
+                System.out.println("Opciones");
+                System.out.println("1. Agendar una cita");
+                System.out.println("2. Dar de alta a un doctor");
+                System.out.println("3. Dar de alta a un paciente");
+                System.out.println("4. Cerrar Sesion");
+
+            }while(opciones.charAt(0) != '0');
+        }else{
+            System.out.println("Error al intentar entrar");
+        }
     }
 }
