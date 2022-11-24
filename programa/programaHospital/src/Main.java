@@ -93,6 +93,13 @@ class programa{
             }
         }
     }
+    private boolean verificar(usuario datosUsuario, String nombreIntroducido, String passwordIntroducido){
+        if ((datosUsuario.nombreUsuario == nombreIntroducido) & (datosUsuario.password == passwordIntroducido)){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }
 //Clase Usuario
 class usuario{
