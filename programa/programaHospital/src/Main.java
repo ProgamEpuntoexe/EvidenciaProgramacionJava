@@ -81,7 +81,7 @@ class edificio{
             escaneo.useDelimiter("%-%");
             do{
                 listaCitas.add(new cita(Integer.parseInt(escaneo.next()),Integer.parseInt(escaneo.next()),Integer.parseInt(escaneo.next()),Integer.parseInt(escaneo.next()),Integer.parseInt(escaneo.next()),Integer.parseInt(escaneo.next()),Integer.parseInt(escaneo.next())));
-                escaneo.nextLine();
+                //escaneo.nextLine();
             }while(escaneo.hasNextLine());
         }
     }
@@ -191,6 +191,7 @@ class programa{
                 hospital.listaPacientes.add(registrarPaciente);
                 hospital.listaCitas.add(new cita(hospital.listaPacientes.size()-1,idDoctor-1,minutosLocal,horasLocal,mesLocal,diaLocal,yearLocal));
                 guardarCita(hospital);
+                guardarPaciente(hospital);
             }catch(Exception e){
                 System.out.println("Ocurrio un error");
             }
@@ -208,6 +209,20 @@ class programa{
         //int pacienteLocal,int doctorLocal, int minutosLocal, int horasLocal, int mesLocal, int diaLocal, int yearlocal
         for (int i = 0; i < hospital.listaCitas.size(); i++) {
             pw.println(hospital.listaCitas.get(i).pacienteAtender+"%-%"+hospital.listaCitas.get(i).doctorAtender+"%-%"+hospital.listaCitas.get(i).horarioMinutos+"%-%"+hospital.listaCitas.get(i).horarioHoras+"%-%"+hospital.listaCitas.get(i).numeroMes+"%-%"+hospital.listaCitas.get(i).numeroDia+"%-%"+hospital.listaCitas.get(i).numeroYear);
+        }
+        pw.close();
+    }
+    private void guardarPaciente(edificio hospital) throws IOException{
+        File archivo = new File("datosGuardados/datosPacientes.txt");
+        if (!archivo.exists()) {
+            archivo.createNewFile();
+        }
+        FileWriter fw = new FileWriter(archivo);
+        PrintWriter pw = new PrintWriter(fw);
+        //int pacienteLocal,int doctorLocal, int minutosLocal, int horasLocal, int mesLocal, int diaLocal, int yearlocal
+        for (int i = 0; i < hospital.listaCitas.size(); i++) {
+            //paciente(nombrePaciente,asuntoPaciente,edadPaciente,true)
+            pw.println(hospital.listaPacientes.get(i).nombre+"%-%"+hospital.listaPacientes.get(i).asunto+"%-%"+hospital.listaPacientes.get(i).edad+"%-%"+hospital.listaPacientes.get(i).citado+"%-%");
         }
         pw.close();
     }
@@ -272,9 +287,10 @@ public class Main {
         System.out.println(personaUtilizaPrograma.nombreUsuario);
         System.out.println(personaUtilizaPrograma.password);
         hospital.cargarDatos();
-        System.out.println(hospital.listaCitas.get(0).numeroDia);
+        //System.out.println(hospital.listaCitas.get(0).numeroDia);
         //hospital.cargarDatos();
-        //pagina.mostrarCitas(hospital);
+        System.out.println(hospital.listaPacientes.get(0));
+        pagina.mostrarCitas(hospital);
         if (pagina.obtenerAcceso(personaUtilizaPrograma)){
 
             do{
