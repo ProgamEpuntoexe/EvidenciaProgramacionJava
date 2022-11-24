@@ -383,7 +383,8 @@ public class Main {
                         case '2':{
                             pagina.mostrarListaDoctores(hospital);
                             try{
-
+                                System.out.print("Seleccione el ID del doctor a dar de alta: ");
+                                pagina.darAltaDoctor(hospital, Integer.parseInt(entrada.readLine()));
                             }catch (Exception e){
                                 System.out.println("Hubo un error al dar de alta");
                             }
