@@ -74,7 +74,7 @@ class edificio{
             do{
                 listaDoctores.add(new doctor(escaneo.next(),escaneo.next(),Integer.parseInt(escaneo.next()),Float.parseFloat(escaneo.next()),Boolean.parseBoolean(escaneo.next())));
                 escaneo.nextLine();
-            }while(escaneo.hasNextLine());
+            }while(escaneo.hasNext());
         }
         archivo = new File("datosGuardados/datosCitas.txt");
         if (archivo.exists()){
@@ -82,8 +82,8 @@ class edificio{
             escaneo.useDelimiter("%-%");
             do{
                 listaCitas.add(new cita(Integer.parseInt(escaneo.next()),Integer.parseInt(escaneo.next()),Integer.parseInt(escaneo.next()),Integer.parseInt(escaneo.next()),Integer.parseInt(escaneo.next()),Integer.parseInt(escaneo.next()),Integer.parseInt(escaneo.next())));
-                //escaneo.nextLine();
-            }while(escaneo.hasNextLine());
+                escaneo.nextLine();
+            }while(escaneo.hasNext());
         }
         archivo = new File("datosGuardados/datosPacientes.txt");
         if (archivo.exists()){
@@ -91,8 +91,8 @@ class edificio{
             escaneo.useDelimiter("%-%");
             do{
                 listaPacientes.add(new paciente(escaneo.next(),escaneo.next(),Integer.parseInt(escaneo.next()),Boolean.parseBoolean(escaneo.next())));
-                //escaneo.nextLine();
-            }while(escaneo.hasNextLine());
+                escaneo.nextLine();
+            }while(escaneo.hasNext());
         }
     }
     public void guardarDoctor(edificio hospital, String nombreLocal, String especialidadLocal, int experienciaLocal, float presupuestoLocal) throws IOException {
@@ -106,6 +106,22 @@ class edificio{
             PrintWriter pw = new PrintWriter(fw);
             for (int i = 0; i < hospital.listaDoctores.size(); i++) {
                 pw.println(hospital.listaDoctores.get(i).nombre + "%-%" + hospital.listaDoctores.get(i).especialidad + "%-%" + hospital.listaDoctores.get(i).experiencia + "%-%" + hospital.listaDoctores.get(i).presupuesto + "%-%"+true+"%-%");
+            }
+            pw.close();
+        }
+    }
+    public void cambioDisponibilidad(int idDoctor, boolean cambioDisponibilidad) throws IOException{
+        listaDoctores.get(idDoctor).disponible = cambioDisponibilidad;
+        System.out.println("--------"+listaDoctores.get(idDoctor).disponible);
+        File archivo = new File("datosGuardados/datosDoctores.txt");
+        if (archivo.exists()) {
+            if (!archivo.exists()) {
+                archivo.createNewFile();
+            }
+            FileWriter fw = new FileWriter(archivo);
+            PrintWriter pw = new PrintWriter(fw);
+            for (int i = 0; i < listaDoctores.size(); i++) {
+                pw.println(listaDoctores.get(i).nombre + "%-%" +listaDoctores.get(i).especialidad + "%-%" + listaDoctores.get(i).experiencia + "%-%" + listaDoctores.get(i).presupuesto + "%-%"+listaDoctores.get(i).disponible+"%-%");
             }
             pw.close();
         }
@@ -200,8 +216,10 @@ class programa{
                 paciente registrarPaciente = new paciente(nombrePaciente,asuntoPaciente,edadPaciente,true);
                 hospital.listaPacientes.add(registrarPaciente);
                 hospital.listaCitas.add(new cita(hospital.listaPacientes.size()-1,idDoctor-1,minutosLocal,horasLocal,mesLocal,diaLocal,yearLocal));
+                hospital.cambioDisponibilidad(idDoctor-1,false);
                 guardarCita(hospital);
                 guardarPaciente(hospital);
+
             }catch(Exception e){
                 System.out.println("Ocurrio un error");
             }
@@ -218,7 +236,7 @@ class programa{
         PrintWriter pw = new PrintWriter(fw);
         //int pacienteLocal,int doctorLocal, int minutosLocal, int horasLocal, int mesLocal, int diaLocal, int yearlocal
         for (int i = 0; i < hospital.listaCitas.size(); i++) {
-            pw.println(hospital.listaCitas.get(i).pacienteAtender+"%-%"+hospital.listaCitas.get(i).doctorAtender+"%-%"+hospital.listaCitas.get(i).horarioMinutos+"%-%"+hospital.listaCitas.get(i).horarioHoras+"%-%"+hospital.listaCitas.get(i).numeroMes+"%-%"+hospital.listaCitas.get(i).numeroDia+"%-%"+hospital.listaCitas.get(i).numeroYear);
+            pw.println(hospital.listaCitas.get(i).pacienteAtender+"%-%"+hospital.listaCitas.get(i).doctorAtender+"%-%"+hospital.listaCitas.get(i).horarioMinutos+"%-%"+hospital.listaCitas.get(i).horarioHoras+"%-%"+hospital.listaCitas.get(i).numeroMes+"%-%"+hospital.listaCitas.get(i).numeroDia+"%-%"+hospital.listaCitas.get(i).numeroYear+"%-%");
         }
         pw.close();
     }
