@@ -73,24 +73,13 @@ class programa{
     public programa(){
 
     }
-
-    public void acceder(usuario datosUsuario) throws IOException{
-        boolean sesionActiva = false;
-        String nombreIntroducido = "";
-        String passwordIntroducido = "";
-        System.out.print("Ingrese el nombre de usuario: ");
-        nombreIntroducido = entrada.readLine();
-        System.out.print("Ingrese el su contraseña: ");
-        passwordIntroducido = entrada.readLine();
-        //Para introducir los datos
-        if (verificar(datosUsuario,nombreIntroducido,passwordIntroducido)){
-            //Verifica si el usuario esta autorizado o no
-            if (datosUsuario.autorizado == true){
-                System.out.println("Acceso al usuario consedido");
-                sesionActiva = true;
-            }else{
-                System.out.println("El usuario no esta autorizado");
-            }
+    public void agendarCita(edificio hospital, int idPaciente, int idDoctor){
+        //Despues de introducir los datos del paciente
+        //Si hay doctores
+        if (!hospital.listaDoctoresDisponibles.isEmpty()){
+            hospital.listaCitas.add(new cita(hospital.listaPacientes.get(idPaciente),hospital.listaDoctoresDisponibles.get(idDoctor),12,30,12,2,2023));
+        }else{
+            System.out.println("No hay Doctores disponibles");
         }
     }
 }
