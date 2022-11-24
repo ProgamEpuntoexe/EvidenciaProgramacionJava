@@ -65,6 +65,9 @@ class edificio{
     public edificio(String nombreLocal){
         nombre = nombreLocal;
     }
+    public void cargarDatos(){
+
+    }
 }
 //Clase programa
 class programa{
