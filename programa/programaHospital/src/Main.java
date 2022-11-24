@@ -136,12 +136,20 @@ class usuario{
         password = contraLocal;
         nombreUsuario = nombreLocal;
     }
+    public void cargarDatos() throws FileNotFoundException {
+        File archivo = new File("datosUsuario.txt");
+        if (archivo.exists()){
+            Scanner escaneo = new Scanner(archivo);
+            nombreUsuario = escaneo.nextLine();
+            password = escaneo.nextLine();
+        }
+    }
 }
 //Clase MAIN
 public class Main {
     public static void main(String[] args) throws IOException {
-        
-        usuario personaUtilizaPrograma = new usuario("123456789","RosarioVillaMosa");
+        usuario personaUtilizaPrograma = new usuario("","");
+        personaUtilizaPrograma.cargarDatos();
         programa pagina = new programa();
         String opciones = "";
         System.out.println(personaUtilizaPrograma.nombreUsuario);
