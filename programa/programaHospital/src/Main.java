@@ -163,6 +163,12 @@ class programa{
             System.out.println((i+1)+". "+hospital.listaDoctores.get(i).nombre+" -"+hospital.listaDoctores.get(i).especialidad);
         }
     }
+    public void mostrarListaDoctoresDisponibles(edificio hospital){
+        doctor idea = new doctor("Dr","Medicina",2,1000,true);
+        for (int i = 0; i < hospital.listaDoctores.size(); i++){
+            System.out.println((i+1)+". "+hospital.listaDoctores.get(i).nombre+" -"+hospital.listaDoctores.get(i).especialidad);
+        }
+    }
     public void darAltaDoctor(edificio hospital, int idDoctor){
         //Si hay doctores
         if (!hospital.listaDoctores.isEmpty()){
@@ -311,7 +317,6 @@ public class Main {
         programa pagina = new programa();
         String opciones = "";
         //hospital.guardarDoctor(hospital,"dr alguien","Medicina",2,1234);
-        //pagina.mostrarListaDoctores(hospital);
         System.out.println(personaUtilizaPrograma.nombreUsuario);
         System.out.println(personaUtilizaPrograma.password);
         hospital.cargarDatos();
