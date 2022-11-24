@@ -65,6 +65,32 @@ class edificio{
     public edificio(String nombreLocal){
         nombre = nombreLocal;
     }
+    public void cargarDatos() throws IOException{
+        File archivo = new File("datosGuardados/datosDoctores.txt");
+        if (archivo.exists()){
+            Scanner escaneo = new Scanner(archivo);
+            escaneo.useDelimiter("%-%");
+            do{
+                listaDoctores.add(new doctor(escaneo.next(),escaneo.next(),Integer.parseInt(escaneo.next()),Float.parseFloat(escaneo.next())));
+                escaneo.nextLine();
+            }while(escaneo.hasNextLine());
+        }
+    }
+    public void guardarDoctor(edificio hospital, String nombreLocal, String especialidadLocal, int experienciaLocal, float presupuestoLocal) throws IOException {
+        File archivo = new File("datosGuardados/datosDoctores.txt");
+        hospital.listaDoctores.add(new doctor(nombreLocal,especialidadLocal,experienciaLocal,presupuestoLocal));
+        if (archivo.exists()) {
+            if (!archivo.exists()) {
+                archivo.createNewFile();
+            }
+            FileWriter fw = new FileWriter(archivo);
+            PrintWriter pw = new PrintWriter(fw);
+            for (int i = 0; i < hospital.listaDoctores.size(); i++) {
+                pw.println(hospital.listaDoctores.get(i).nombre + "%-%" + hospital.listaDoctores.get(i).especialidad + "%-%" + hospital.listaDoctores.get(i).experiencia + "%-%" + hospital.listaDoctores.get(i).presupuesto + "%-%");
+            }
+            pw.close();
+        }
+    }
 }
 //Clase programa
 class programa{
@@ -99,7 +125,7 @@ class programa{
     public void mostrarListaDoctores(edificio hospital){
         doctor idea = new doctor("Dr","Medicina",2,1000);
         for (int i = 0; i < hospital.listaDoctores.size(); i++){
-            System.out.println(i+". "+hospital.listaDoctores.get(0).nombre);
+            System.out.println((i+1)+". "+hospital.listaDoctores.get(i).nombre);
         }
     }
     public void darAltaDoctor(edificio hospital, int idDoctor){
@@ -136,14 +162,39 @@ class usuario{
         password = contraLocal;
         nombreUsuario = nombreLocal;
     }
+    public void cargarDatos() throws FileNotFoundException {
+        File archivo = new File("datosGuardados/datosUsuario.txt");
+        if (archivo.exists()){
+            Scanner escaneo = new Scanner(archivo);
+            nombreUsuario = escaneo.nextLine();
+            password = escaneo.nextLine();
+        }
+    }
+    public void guardarDatos(String nombre, String password) throws IOException{
+        File archivo = new File("datosGuardados/datosUsuario.txt");
+        if (!archivo.exists()){
+            archivo.createNewFile();
+        }
+        FileWriter fw = new FileWriter(archivo);
+        PrintWriter pw = new PrintWriter(fw);
+        pw.println(nombre);
+        pw.println(password);
+        pw.close();
+    }
 }
 //Clase MAIN
 public class Main {
     public static void main(String[] args) throws IOException {
-        
-        usuario personaUtilizaPrograma = new usuario("123456789","RosarioVillaMosa");
+        usuario personaUtilizaPrograma = new usuario("","");
+        edificio hospital = new edificio("Hospital Angeles");
+        personaUtilizaPrograma.guardarDatos("Rosa","1234");
+        personaUtilizaPrograma.cargarDatos();
         programa pagina = new programa();
         String opciones = "";
+        hospital.cargarDatos();
+        hospital.guardarDoctor(hospital,"dr alguien","Medicina",2,1234);
+        pagina.mostrarListaDoctores(hospital);
+        /*
         System.out.println(personaUtilizaPrograma.nombreUsuario);
         System.out.println(personaUtilizaPrograma.password);
         if (pagina.obtenerAcceso(personaUtilizaPrograma)){
@@ -153,10 +204,10 @@ public class Main {
                 System.out.println("2. Dar de alta a un doctor");
                 System.out.println("3. Dar de alta a un paciente");
                 System.out.println("4. Cerrar Sesion");
-
+                opciones = "0";
             }while(opciones.charAt(0) != '0');
         }else{
             System.out.println("Error al intentar entrar");
-        }
+        }*/
     }
 }
