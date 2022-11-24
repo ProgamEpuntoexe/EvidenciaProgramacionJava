@@ -159,14 +159,24 @@ class programa{
     }
     public void mostrarListaDoctores(edificio hospital){
         doctor idea = new doctor("Dr","Medicina",2,1000,true);
+        String disponible = "";
         for (int i = 0; i < hospital.listaDoctores.size(); i++){
-            System.out.println((i+1)+". "+hospital.listaDoctores.get(i).nombre+" -"+hospital.listaDoctores.get(i).especialidad);
+            if (hospital.listaDoctores.get(i).disponible == true){
+                disponible = "- disponible";
+            }else{
+                disponible = "- NO disponible";
+            }
+            System.out.println((i+1)+". "+hospital.listaDoctores.get(i).nombre+" -"+hospital.listaDoctores.get(i).especialidad+" "+disponible);
         }
     }
     public void mostrarListaDoctoresDisponibles(edificio hospital){
         doctor idea = new doctor("Dr","Medicina",2,1000,true);
+        int doctores = 1;
         for (int i = 0; i < hospital.listaDoctores.size(); i++){
-            System.out.println((i+1)+". "+hospital.listaDoctores.get(i).nombre+" -"+hospital.listaDoctores.get(i).especialidad);
+            if (hospital.listaDoctores.get(i).disponible == true){
+                System.out.println(doctores+". "+hospital.listaDoctores.get(i).nombre+" -"+hospital.listaDoctores.get(i).especialidad);
+                doctores += 1;
+            }
         }
     }
     public void darAltaDoctor(edificio hospital, int idDoctor){
