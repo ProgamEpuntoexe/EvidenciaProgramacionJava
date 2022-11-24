@@ -137,18 +137,30 @@ class usuario{
         nombreUsuario = nombreLocal;
     }
     public void cargarDatos() throws FileNotFoundException {
-        File archivo = new File("datosUsuario.txt");
+        File archivo = new File("datosGuardados/datosUsuario.txt");
         if (archivo.exists()){
             Scanner escaneo = new Scanner(archivo);
             nombreUsuario = escaneo.nextLine();
             password = escaneo.nextLine();
         }
     }
+    public void guardarDatos(String nombre, String password) throws IOException{
+        File archivo = new File("datosGuardados/datosUsuario.txt");
+        if (!archivo.exists()){
+            archivo.createNewFile();
+        }
+        FileWriter fw = new FileWriter(archivo);
+        PrintWriter pw = new PrintWriter(fw);
+        pw.println(nombre);
+        pw.println(password);
+        pw.close();
+    }
 }
 //Clase MAIN
 public class Main {
     public static void main(String[] args) throws IOException {
         usuario personaUtilizaPrograma = new usuario("","");
+        personaUtilizaPrograma.guardarDatos("Rosa","1234");
         personaUtilizaPrograma.cargarDatos();
         programa pagina = new programa();
         String opciones = "";
@@ -161,7 +173,7 @@ public class Main {
                 System.out.println("2. Dar de alta a un doctor");
                 System.out.println("3. Dar de alta a un paciente");
                 System.out.println("4. Cerrar Sesion");
-
+                opciones = "0";
             }while(opciones.charAt(0) != '0');
         }else{
             System.out.println("Error al intentar entrar");
