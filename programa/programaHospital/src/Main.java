@@ -187,6 +187,7 @@ class programa{
             System.out.println("No hay doctores");
         }
     }
+    private eliminarCitaDoctor
     public void agendarCita(edificio hospital) throws IOException{
         BufferedReader entrada = new BufferedReader(new InputStreamReader(System.in));
         String opcion = "";
@@ -353,6 +354,10 @@ public class Main {
                     switch(opciones.charAt(0)){
                         case '1':{
                             pagina.agendarCita(hospital);
+                            break;
+                        }
+                        case '2':{
+
                             break;
                         }
                     }
