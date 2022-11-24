@@ -7,11 +7,13 @@ class doctor{
     public String especialidad = "";
     public int experiencia = 0;
     public float presupuesto = 0.0f;
-    public doctor(String nombreLocal, String especialidadLocal, int experienciaLocal, float presupuestoLocal){
+    public boolean disponible = true;
+    public doctor(String nombreLocal, String especialidadLocal, int experienciaLocal, float presupuestoLocal, boolean disponibleLocal){
         nombre = nombreLocal;
         especialidad = especialidadLocal;
         experiencia = experienciaLocal;
         presupuesto = presupuestoLocal;
+        disponible = disponibleLocal;
     }
 }
 //Clase paciente
@@ -58,7 +60,6 @@ class recepcion{
 //Clase edificio
 class edificio{
     public ArrayList<doctor> listaDoctores = new ArrayList<doctor>();
-    public ArrayList<doctor> listaDoctoresDisponibles = new ArrayList<doctor>();
     public ArrayList<paciente> listaPacientes = new ArrayList<paciente>();
     public ArrayList<cita> listaCitas = new ArrayList<cita>();
     String nombre = "";
@@ -71,7 +72,7 @@ class edificio{
             Scanner escaneo = new Scanner(archivo);
             escaneo.useDelimiter("%-%");
             do{
-                listaDoctores.add(new doctor(escaneo.next(),escaneo.next(),Integer.parseInt(escaneo.next()),Float.parseFloat(escaneo.next())));
+                listaDoctores.add(new doctor(escaneo.next(),escaneo.next(),Integer.parseInt(escaneo.next()),Float.parseFloat(escaneo.next()),Boolean.parseBoolean(escaneo.next())));
                 escaneo.nextLine();
             }while(escaneo.hasNextLine());
         }
@@ -96,7 +97,7 @@ class edificio{
     }
     public void guardarDoctor(edificio hospital, String nombreLocal, String especialidadLocal, int experienciaLocal, float presupuestoLocal) throws IOException {
         File archivo = new File("datosGuardados/datosDoctores.txt");
-        hospital.listaDoctores.add(new doctor(nombreLocal,especialidadLocal,experienciaLocal,presupuestoLocal));
+        hospital.listaDoctores.add(new doctor(nombreLocal,especialidadLocal,experienciaLocal,presupuestoLocal,true));
         if (archivo.exists()) {
             if (!archivo.exists()) {
                 archivo.createNewFile();
@@ -104,7 +105,7 @@ class edificio{
             FileWriter fw = new FileWriter(archivo);
             PrintWriter pw = new PrintWriter(fw);
             for (int i = 0; i < hospital.listaDoctores.size(); i++) {
-                pw.println(hospital.listaDoctores.get(i).nombre + "%-%" + hospital.listaDoctores.get(i).especialidad + "%-%" + hospital.listaDoctores.get(i).experiencia + "%-%" + hospital.listaDoctores.get(i).presupuesto + "%-%");
+                pw.println(hospital.listaDoctores.get(i).nombre + "%-%" + hospital.listaDoctores.get(i).especialidad + "%-%" + hospital.listaDoctores.get(i).experiencia + "%-%" + hospital.listaDoctores.get(i).presupuesto + "%-%"+true+"%-%");
             }
             pw.close();
         }
@@ -141,7 +142,7 @@ class programa{
         }
     }
     public void mostrarListaDoctores(edificio hospital){
-        doctor idea = new doctor("Dr","Medicina",2,1000);
+        doctor idea = new doctor("Dr","Medicina",2,1000,true);
         for (int i = 0; i < hospital.listaDoctores.size(); i++){
             System.out.println((i+1)+". "+hospital.listaDoctores.get(i).nombre+" -"+hospital.listaDoctores.get(i).especialidad);
         }
@@ -307,7 +308,8 @@ public class Main {
                 System.out.println("1. Agendar una cita");
                 System.out.println("2. Dar de alta a un doctor");
                 System.out.println("3. Dar de alta a un paciente");
-                System.out.println("4. Cerrar Sesion");
+                System.out.println("4. Agendar una cita");
+                System.out.println("5. Cerrar Sesion");
                 System.out.print("Ingresar el numero de opcion: ");
                 opciones = entrada.readLine();
                 if (opciones.isEmpty()){
@@ -318,10 +320,11 @@ public class Main {
                     switch(opciones.charAt(0)){
                         case '1':{
                             pagina.agendarCita(hospital);
+                            break;
                         }
                     }
                 }
-            }while(opciones.charAt(0) != '4');
+            }while(opciones.charAt(0) != '5');
         }else{
             System.out.println("Error al intentar entrar");
         }
