@@ -73,7 +73,7 @@ class programa{
     public programa(){
 
     }
-    
+
 }
 //Clase Usuario
 class usuario{
