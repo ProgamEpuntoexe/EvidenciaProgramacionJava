@@ -84,6 +84,15 @@ class edificio{
                 //escaneo.nextLine();
             }while(escaneo.hasNextLine());
         }
+        archivo = new File("datosGuardados/datosPacientes.txt");
+        if (archivo.exists()){
+            Scanner escaneo = new Scanner(archivo);
+            escaneo.useDelimiter("%-%");
+            do{
+                listaPacientes.add(new paciente(escaneo.next(),escaneo.next(),Integer.parseInt(escaneo.next()),Boolean.parseBoolean(escaneo.next())));
+                //escaneo.nextLine();
+            }while(escaneo.hasNextLine());
+        }
     }
     public void guardarDoctor(edificio hospital, String nombreLocal, String especialidadLocal, int experienciaLocal, float presupuestoLocal) throws IOException {
         File archivo = new File("datosGuardados/datosDoctores.txt");
@@ -231,9 +240,9 @@ class programa{
     }
     public void mostrarCitas(edificio Hospital) throws IOException{
         for (int i = 0; i < Hospital.listaCitas.size(); i++){
-            System.out.println("- "+Hospital.listaCitas.get(i).numeroDia+"/"+Hospital.listaCitas.get(i).numeroMes+"/"+Hospital.listaCitas.get(i).numeroYear);
-            System.out.println("   -Doctor: "+Hospital.listaDoctores.get(Hospital.listaCitas.get(i).doctorAtender).nombre);
-            System.out.println("   -Paciente: "+Hospital.listaPacientes.get(Hospital.listaCitas.get(i).pacienteAtender).nombre+"de "+""+"años");
+            System.out.println((i+1)+".  -"+Hospital.listaCitas.get(i).numeroDia+"/"+Hospital.listaCitas.get(i).numeroMes+"/"+Hospital.listaCitas.get(i).numeroYear);
+            System.out.println("    -Doctor: "+Hospital.listaDoctores.get(Hospital.listaCitas.get(i).doctorAtender).nombre);
+            System.out.println("    -Paciente: "+Hospital.listaPacientes.get(Hospital.listaCitas.get(i).pacienteAtender).nombre+" de "+Hospital.listaPacientes.get(Hospital.listaCitas.get(i).pacienteAtender).edad+" años");
         }
     }
     public void darAltaPaciente(edificio hospital, int idPaciente){
