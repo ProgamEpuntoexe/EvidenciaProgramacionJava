@@ -95,11 +95,6 @@ class programa{
     //Dar de alta a los doctores/despedir
     public void darAltaDoctor(edificio hospital, int idDoctor){
         //Si hay doctores
-        if (!hospital.listaDoctores.isEmpty()){
-            hospital.listaDoctores.indexOf(idDoctor);
-        }else{
-            System.out.println("No hay doctores");
-        }
     }
     //Poner los datos del paciente y agendar una cita
     public void agendarCita(edificio hospital, int idPaciente, int idDoctor){
