@@ -117,6 +117,14 @@ class programa{
             System.out.println("No hay Doctores disponibles");
         }
     }
+    public void darAltaPaciente(edificio hospital, int idPaciente){
+        //Si hay pacientes
+        if (!hospital.listaPacientes.isEmpty()){
+            hospital.listaPacientes.remove(idPaciente);
+        }else{
+            System.out.println("No hay pacientes");
+        }
+    }
 }
 //Clase Usuario
 class usuario{
