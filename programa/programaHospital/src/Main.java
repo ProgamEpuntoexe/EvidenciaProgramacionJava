@@ -108,6 +108,15 @@ class programa{
             System.out.println("No hay doctores");
         }
     }
+    public void agendarCita(edificio hospital, int idPaciente, int idDoctor){
+        //Despues de introducir los datos del paciente
+        //Si hay doctores
+        if (!hospital.listaDoctoresDisponibles.isEmpty()){
+            hospital.listaCitas.add(new cita(hospital.listaPacientes.get(idPaciente),hospital.listaDoctoresDisponibles.get(idDoctor),12,30,12,2,2023));
+        }else{
+            System.out.println("No hay Doctores disponibles");
+        }
+    }
 }
 //Clase Usuario
 class usuario{
