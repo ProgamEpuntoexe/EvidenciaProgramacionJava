@@ -29,14 +29,14 @@ class paciente{
 }
 //Clase cita
 class cita {
-    public paciente pacienteAtender;
-    public doctor doctorAtender;
+    public int pacienteAtender;
+    public int doctorAtender;
     public int horarioMinutos = 0;
     public int horarioHoras = 0;
     public int numeroMes = 0;
     public int numeroDia = 0;
     public int numeroYear = 0;
-    public cita(paciente pacienteLocal, doctor doctorLocal, int minutosLocal, int horasLocal, int mesLocal, int diaLocal, int yearlocal){
+    public cita(int pacienteLocal,int doctorLocal, int minutosLocal, int horasLocal, int mesLocal, int diaLocal, int yearlocal){
         pacienteAtender = pacienteLocal;
         doctorAtender = doctorLocal;
         horarioHoras = horasLocal;
@@ -163,9 +163,9 @@ class programa{
             try{
                 System.out.print("Nombre del paciente: ");
                 nombrePaciente = entrada.readLine();
-                System.out.println("Asunto: ");
+                System.out.print("Asunto: ");
                 asuntoPaciente = entrada.readLine();
-                System.out.println("Edad: ");
+                System.out.print("Edad: ");
                 edadPaciente = Integer.parseInt(entrada.readLine());
                 System.out.println("---INGRESANDO DATOS DE FECHA---");
                 System.out.print("Año: ");
@@ -174,19 +174,32 @@ class programa{
                 mesLocal = Integer.parseInt(entrada.readLine());
                 System.out.print("Dia: ");
                 diaLocal = Integer.parseInt(entrada.readLine());
-                System.out.println("La hora en horas: ");
+                System.out.print("La hora en horas: ");
                 horasLocal = Integer.parseInt(entrada.readLine());
                 System.out.print("La hora en minutos: ");
                 minutosLocal = Integer.parseInt(entrada.readLine());
                 paciente registrarPaciente = new paciente(nombrePaciente,asuntoPaciente,edadPaciente,true);
                 hospital.listaPacientes.add(registrarPaciente);
-                hospital.listaCitas.add(new cita(registrarPaciente,hospital.listaDoctores.get(idDoctor),minutosLocal,horasLocal,mesLocal,diaLocal,yearLocal));
+                hospital.listaCitas.add(new cita(hospital.listaPacientes.size()-1,idDoctor-1,minutosLocal,horasLocal,mesLocal,diaLocal,yearLocal));
+                guardarCita(hospital);
             }catch(Exception e){
                 System.out.println("Ocurrio un error");
             }
         }else{
             System.out.println("No hay Doctores disponibles");
         }
+    }
+    private void guardarCita(edificio hospital) throws IOException{
+        File archivo = new File("datosGuardados/datosCitas.txt");
+        if (!archivo.exists()) {
+            archivo.createNewFile();
+        }
+        FileWriter fw = new FileWriter(archivo);
+        PrintWriter pw = new PrintWriter(fw);
+        for (int i = 0; i < hospital.listaCitas.size(); i++) {
+            pw.println(hospital.listaCitas.get(i).numeroYear+"%-%"+hospital.listaCitas.get(i).numeroMes+"%-%"+hospital.listaCitas.get(i).numeroDia+"%-%"+hospital.listaCitas.get(i).horarioHoras+"%-%"+hospital.listaCitas.get(i).horarioMinutos+"%-%"+hospital.listaCitas.get(i).doctorAtender+"%-%"+hospital.listaCitas.get(i).pacienteAtender+"%-%");
+        }
+        pw.close();
     }
     public void darAltaPaciente(edificio hospital, int idPaciente){
         //Si hay pacientes
@@ -231,7 +244,6 @@ public class Main {
         BufferedReader entrada = new BufferedReader(new InputStreamReader(System.in));
         usuario personaUtilizaPrograma = new usuario("","");
         edificio hospital = new edificio("Hospital Angeles");
-        personaUtilizaPrograma.guardarDatos("Rosa","1234");
         personaUtilizaPrograma.cargarDatos();
         programa pagina = new programa();
         String opciones = "";
@@ -240,6 +252,7 @@ public class Main {
         System.out.println(personaUtilizaPrograma.nombreUsuario);
         System.out.println(personaUtilizaPrograma.password);
         if (pagina.obtenerAcceso(personaUtilizaPrograma)){
+            hospital.cargarDatos();
             do{
                 System.out.println("Opciones para el "+hospital.nombre);
                 System.out.println("1. Agendar una cita");
