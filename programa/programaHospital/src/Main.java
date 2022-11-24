@@ -125,7 +125,7 @@ class programa{
     public void mostrarListaDoctores(edificio hospital){
         doctor idea = new doctor("Dr","Medicina",2,1000);
         for (int i = 0; i < hospital.listaDoctores.size(); i++){
-            System.out.println((i+1)+". "+hospital.listaDoctores.get(i).nombre);
+            System.out.println((i+1)+". "+hospital.listaDoctores.get(i).nombre+" -"+hospital.listaDoctores.get(i).especialidad);
         }
     }
     public void darAltaDoctor(edificio hospital, int idDoctor){
@@ -136,11 +136,22 @@ class programa{
             System.out.println("No hay doctores");
         }
     }
-    public void agendarCita(edificio hospital, int idPaciente, int idDoctor){
+    public void agendarCita(edificio hospital) throws IOException{
+        BufferedReader entrada = new BufferedReader(new InputStreamReader(System.in));
+        String opcion = "";
+        paciente pRegistrado = new paciente("","",0,true);
+        int idDoctor;
         //Despues de introducir los datos del paciente
         //Si hay doctores
-        if (!hospital.listaDoctoresDisponibles.isEmpty()){
-            hospital.listaCitas.add(new cita(hospital.listaPacientes.get(idPaciente),hospital.listaDoctoresDisponibles.get(idDoctor),12,30,12,2,2023));
+        if (!hospital.listaDoctores.isEmpty()){
+            mostrarListaDoctores(hospital);
+            System.out.print("Ingrese el id del doctor a realizar la cita: ");
+            try{
+                Integer.parseInt("1");
+                idDoctor = Integer.parseInt(entrada.readLine());
+            }catch(Exception e){
+                System.out.println("Ocurrio un error");
+            }
         }else{
             System.out.println("No hay Doctores disponibles");
         }
@@ -197,7 +208,6 @@ public class Main {
         System.out.println(personaUtilizaPrograma.nombreUsuario);
         System.out.println(personaUtilizaPrograma.password);
         if (pagina.obtenerAcceso(personaUtilizaPrograma)){
-            hospital.cargarDatos();
             do{
                 System.out.println("Opciones para el "+hospital.nombre);
                 System.out.println("1. Agendar una cita");
@@ -210,6 +220,12 @@ public class Main {
                     System.out.println("Favor de introducir algo");
                     entrada.readLine();
                     opciones = "0";
+                }else{
+                    switch(opciones.charAt(0)){
+                        case '1':{
+                            pagina.agendarCita(hospital);
+                        }
+                    }
                 }
             }while(opciones.charAt(0) != '4');
         }else{
