@@ -74,8 +74,24 @@ class programa{
 
     }
     //Dar de alta a los doctores/despedir
-    public void darAltaDoctor(edificio hospital, int idDoctor){
-        //Si hay doctores
+    public void acceder(usuario datosUsuario) throws IOException{
+        boolean sesionActiva = false;
+        String nombreIntroducido = "";
+        String passwordIntroducido = "";
+        System.out.print("Ingrese el nombre de usuario: ");
+        nombreIntroducido = entrada.readLine();
+        System.out.print("Ingrese el su contraseña: ");
+        passwordIntroducido = entrada.readLine();
+        //Para introducir los datos
+        if (verificar(datosUsuario,nombreIntroducido,passwordIntroducido)){
+            //Verifica si el usuario esta autorizado o no
+            if (datosUsuario.autorizado == true){
+                System.out.println("Acceso al usuario consedido");
+                sesionActiva = true;
+            }else{
+                System.out.println("El usuario no esta autorizado");
+            }
+        }
     }
 }
 //Clase Usuario
