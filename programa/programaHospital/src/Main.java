@@ -73,16 +73,12 @@ class programa{
     public programa(){
 
     }
-
-    public void acceder(usuario datosUsuario) throws IOException{
-        //HOLA
-        boolean sesionActiva = false;
-        String nombreIntroducido = "";
-        String passwordIntroducido = "";
-        System.out.print("Ingrese el nombre de usuario: ");
-        nombreIntroducido = entrada.readLine();
-        System.out.print("Ingrese el su contraseña: ");
-        passwordIntroducido = entrada.readLine();
+    private boolean verificar(usuario datosUsuario, String nombreIntroducido, String passwordIntroducido){
+        if ((datosUsuario.nombreUsuario == nombreIntroducido) & (datosUsuario.password == passwordIntroducido)){
+            return true;
+        }else{
+            return false;
+        }
     }
 }
 //Clase Usuario
