@@ -83,12 +83,12 @@ class programa{
         System.out.print("Ingrese el su contraseña: ");
         passwordIntroducido = entrada.readLine();
         //Para introducir los datos
-        if (verificar(datosUsuario,nombreIntroducido,passwordIntroducido)){
+        if (verificar(datosUsuario,nombreIntroducido,passwordIntroducido)) {
             //Verifica si el usuario esta autorizado o no
-            if (datosUsuario.autorizado == true){
+            if (datosUsuario.autorizado == true) {
                 System.out.println("Acceso al usuario consedido");
                 sesionActiva = true;
-            }else{
+            } else {
                 System.out.println("El usuario no esta autorizado");
             }
         }
@@ -98,6 +98,14 @@ class programa{
             return true;
         }else{
             return false;
+        }
+    }
+    public void darAltaDoctor(edificio hospital, int idDoctor){
+        //Si hay doctores
+        if (!hospital.listaDoctores.isEmpty()){
+            hospital.listaDoctores.indexOf(idDoctor);
+        }else{
+            System.out.println("No hay doctores");
         }
     }
 }
