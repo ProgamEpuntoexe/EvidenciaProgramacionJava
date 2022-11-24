@@ -29,14 +29,14 @@ class paciente{
 }
 //Clase cita
 class cita {
-    public paciente pacienteAtender;
-    public doctor doctorAtender;
+    public int pacienteAtender;
+    public int doctorAtender;
     public int horarioMinutos = 0;
     public int horarioHoras = 0;
     public int numeroMes = 0;
     public int numeroDia = 0;
     public int numeroYear = 0;
-    public cita(paciente pacienteLocal, doctor doctorLocal, int minutosLocal, int horasLocal, int mesLocal, int diaLocal, int yearlocal){
+    public cita(int pacienteLocal,int doctorLocal, int minutosLocal, int horasLocal, int mesLocal, int diaLocal, int yearlocal){
         pacienteAtender = pacienteLocal;
         doctorAtender = doctorLocal;
         horarioHoras = horasLocal;
@@ -73,6 +73,24 @@ class edificio{
             do{
                 listaDoctores.add(new doctor(escaneo.next(),escaneo.next(),Integer.parseInt(escaneo.next()),Float.parseFloat(escaneo.next())));
                 escaneo.nextLine();
+            }while(escaneo.hasNextLine());
+        }
+        archivo = new File("datosGuardados/datosCitas.txt");
+        if (archivo.exists()){
+            Scanner escaneo = new Scanner(archivo);
+            escaneo.useDelimiter("%-%");
+            do{
+                listaCitas.add(new cita(Integer.parseInt(escaneo.next()),Integer.parseInt(escaneo.next()),Integer.parseInt(escaneo.next()),Integer.parseInt(escaneo.next()),Integer.parseInt(escaneo.next()),Integer.parseInt(escaneo.next()),Integer.parseInt(escaneo.next())));
+                //escaneo.nextLine();
+            }while(escaneo.hasNextLine());
+        }
+        archivo = new File("datosGuardados/datosPacientes.txt");
+        if (archivo.exists()){
+            Scanner escaneo = new Scanner(archivo);
+            escaneo.useDelimiter("%-%");
+            do{
+                listaPacientes.add(new paciente(escaneo.next(),escaneo.next(),Integer.parseInt(escaneo.next()),Boolean.parseBoolean(escaneo.next())));
+                //escaneo.nextLine();
             }while(escaneo.hasNextLine());
         }
     }
@@ -125,7 +143,7 @@ class programa{
     public void mostrarListaDoctores(edificio hospital){
         doctor idea = new doctor("Dr","Medicina",2,1000);
         for (int i = 0; i < hospital.listaDoctores.size(); i++){
-            System.out.println((i+1)+". "+hospital.listaDoctores.get(i).nombre);
+            System.out.println((i+1)+". "+hospital.listaDoctores.get(i).nombre+" -"+hospital.listaDoctores.get(i).especialidad);
         }
     }
     public void darAltaDoctor(edificio hospital, int idDoctor){
@@ -136,13 +154,95 @@ class programa{
             System.out.println("No hay doctores");
         }
     }
-    public void agendarCita(edificio hospital, int idPaciente, int idDoctor){
+    public void agendarCita(edificio hospital) throws IOException{
+        BufferedReader entrada = new BufferedReader(new InputStreamReader(System.in));
+        String opcion = "";
+        String nombrePaciente = "";
+        String asuntoPaciente = "";
+        int edadPaciente = 0;
+        int idDoctor = 0;
+        int minutosLocal = 0;
+        int horasLocal = 0;
+        int mesLocal = 0;
+        int yearLocal = 0;
+        int diaLocal = 0;
         //Despues de introducir los datos del paciente
         //Si hay doctores
-        if (!hospital.listaDoctoresDisponibles.isEmpty()){
-            hospital.listaCitas.add(new cita(hospital.listaPacientes.get(idPaciente),hospital.listaDoctoresDisponibles.get(idDoctor),12,30,12,2,2023));
+        if (!hospital.listaDoctores.isEmpty()){
+            mostrarListaDoctores(hospital);
+            System.out.print("Ingrese el id del doctor a realizar la cita: ");
+            try{
+                Integer.parseInt("1");
+                idDoctor = Integer.parseInt(entrada.readLine());
+            }catch(Exception e){
+                System.out.println("Ocurrio un error");
+            }
+            System.out.println("---INGRESANDO DATOS DE PACIENTE---");
+            try{
+                System.out.print("Nombre del paciente: ");
+                nombrePaciente = entrada.readLine();
+                System.out.print("Asunto: ");
+                asuntoPaciente = entrada.readLine();
+                System.out.print("Edad: ");
+                edadPaciente = Integer.parseInt(entrada.readLine());
+                System.out.println("---INGRESANDO DATOS DE FECHA---");
+                System.out.print("Año: ");
+                yearLocal = Integer.parseInt(entrada.readLine());
+                System.out.print("Mes: ");
+                mesLocal = Integer.parseInt(entrada.readLine());
+                System.out.print("Dia: ");
+                diaLocal = Integer.parseInt(entrada.readLine());
+                System.out.print("La hora en horas: ");
+                horasLocal = Integer.parseInt(entrada.readLine());
+                System.out.print("La hora en minutos: ");
+                minutosLocal = Integer.parseInt(entrada.readLine());
+                paciente registrarPaciente = new paciente(nombrePaciente,asuntoPaciente,edadPaciente,true);
+                hospital.listaPacientes.add(registrarPaciente);
+                hospital.listaCitas.add(new cita(hospital.listaPacientes.size()-1,idDoctor-1,minutosLocal,horasLocal,mesLocal,diaLocal,yearLocal));
+                guardarCita(hospital);
+                guardarPaciente(hospital);
+            }catch(Exception e){
+                System.out.println("Ocurrio un error");
+            }
         }else{
             System.out.println("No hay Doctores disponibles");
+        }
+    }
+    private void guardarCita(edificio hospital) throws IOException{
+        File archivo = new File("datosGuardados/datosCitas.txt");
+        if (!archivo.exists()) {
+            archivo.createNewFile();
+        }
+        FileWriter fw = new FileWriter(archivo);
+        PrintWriter pw = new PrintWriter(fw);
+        //int pacienteLocal,int doctorLocal, int minutosLocal, int horasLocal, int mesLocal, int diaLocal, int yearlocal
+        for (int i = 0; i < hospital.listaCitas.size(); i++) {
+            pw.println(hospital.listaCitas.get(i).pacienteAtender+"%-%"+hospital.listaCitas.get(i).doctorAtender+"%-%"+hospital.listaCitas.get(i).horarioMinutos+"%-%"+hospital.listaCitas.get(i).horarioHoras+"%-%"+hospital.listaCitas.get(i).numeroMes+"%-%"+hospital.listaCitas.get(i).numeroDia+"%-%"+hospital.listaCitas.get(i).numeroYear);
+        }
+        pw.close();
+    }
+    private void guardarPaciente(edificio hospital) throws IOException{
+        File archivo = new File("datosGuardados/datosPacientes.txt");
+        if (!archivo.exists()) {
+            archivo.createNewFile();
+        }
+        FileWriter fw = new FileWriter(archivo);
+        PrintWriter pw = new PrintWriter(fw);
+        //int pacienteLocal,int doctorLocal, int minutosLocal, int horasLocal, int mesLocal, int diaLocal, int yearlocal
+        for (int i = 0; i < hospital.listaCitas.size(); i++) {
+            //paciente(nombrePaciente,asuntoPaciente,edadPaciente,true)
+            pw.println(hospital.listaPacientes.get(i).nombre+"%-%"+hospital.listaPacientes.get(i).asunto+"%-%"+hospital.listaPacientes.get(i).edad+"%-%"+hospital.listaPacientes.get(i).citado+"%-%");
+        }
+        pw.close();
+    }
+    public void eliminarCita(edificio Hospital) throws IOException{
+
+    }
+    public void mostrarCitas(edificio Hospital) throws IOException{
+        for (int i = 0; i < Hospital.listaCitas.size(); i++){
+            System.out.println((i+1)+".  -"+Hospital.listaCitas.get(i).numeroDia+"/"+Hospital.listaCitas.get(i).numeroMes+"/"+Hospital.listaCitas.get(i).numeroYear);
+            System.out.println("    -Doctor: "+Hospital.listaDoctores.get(Hospital.listaCitas.get(i).doctorAtender).nombre);
+            System.out.println("    -Paciente: "+Hospital.listaPacientes.get(Hospital.listaCitas.get(i).pacienteAtender).nombre+" de "+Hospital.listaPacientes.get(Hospital.listaCitas.get(i).pacienteAtender).edad+" años");
         }
     }
     public void darAltaPaciente(edificio hospital, int idPaciente){
@@ -188,7 +288,6 @@ public class Main {
         BufferedReader entrada = new BufferedReader(new InputStreamReader(System.in));
         usuario personaUtilizaPrograma = new usuario("","");
         edificio hospital = new edificio("Hospital Angeles");
-        personaUtilizaPrograma.guardarDatos("Rosa","1234");
         personaUtilizaPrograma.cargarDatos();
         programa pagina = new programa();
         String opciones = "";
@@ -196,8 +295,13 @@ public class Main {
         //pagina.mostrarListaDoctores(hospital);
         System.out.println(personaUtilizaPrograma.nombreUsuario);
         System.out.println(personaUtilizaPrograma.password);
+        hospital.cargarDatos();
+        //System.out.println(hospital.listaCitas.get(0).numeroDia);
+        //hospital.cargarDatos();
+        System.out.println(hospital.listaPacientes.get(0));
+        pagina.mostrarCitas(hospital);
         if (pagina.obtenerAcceso(personaUtilizaPrograma)){
-            hospital.cargarDatos();
+
             do{
                 System.out.println("Opciones para el "+hospital.nombre);
                 System.out.println("1. Agendar una cita");
@@ -210,6 +314,12 @@ public class Main {
                     System.out.println("Favor de introducir algo");
                     entrada.readLine();
                     opciones = "0";
+                }else{
+                    switch(opciones.charAt(0)){
+                        case '1':{
+                            pagina.agendarCita(hospital);
+                        }
+                    }
                 }
             }while(opciones.charAt(0) != '4');
         }else{

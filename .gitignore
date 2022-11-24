@@ -25,4 +25,9 @@ hs_err_pid*
 datosGuardados/datosMedicos.txt
 datosGuardados/datosDoctores.txt
 datosGuardados/datosCitas.txt
+<<<<<<< HEAD
+=======
+datosGuardados/datosCitas.txt
+datosGuardados/datosPacientes.txt
+>>>>>>> cargarPaciente
 datosGuardados/datosPacientes.txt
