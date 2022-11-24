@@ -73,33 +73,7 @@ class programa{
     public programa(){
 
     }
-    //Poner los datos del paciente y agendar una cita
-    public void agendarCita(edificio hospital, int idPaciente, int idDoctor){
-        //Despues de introducir los datos del paciente
-        //Si hay doctores
-        if (!hospital.listaDoctoresDisponibles.isEmpty()){
-            hospital.listaCitas.add(new cita(hospital.listaPacientes.get(idPaciente),hospital.listaDoctoresDisponibles.get(idDoctor),12,30,12,2,2023));
-        }else{
-            System.out.println("No hay Doctores disponibles");
-        }
-    }
-    //Dar de alta a un paciente si este esta sano
-    public void darAltaPaciente(edificio hospital, int idPaciente){
-        //Si hay pacientes
-        if (!hospital.listaPacientes.isEmpty()){
-            hospital.listaPacientes.remove(idPaciente);
-        }else{
-            System.out.println("No hay pacientes");
-        }
-    }
-    //Para verificar si los datos son correctos
-    private boolean verificar(usuario datosUsuario, String nombreIntroducido, String passwordIntroducido){
-        if ((datosUsuario.nombreUsuario == nombreIntroducido) & (datosUsuario.password == passwordIntroducido)){
-            return true;
-        }else{
-            return false;
-        }
-    }
+    
 }
 //Clase Usuario
 class usuario{
