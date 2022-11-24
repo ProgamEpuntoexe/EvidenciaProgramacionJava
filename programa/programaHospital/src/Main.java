@@ -75,6 +75,15 @@ class edificio{
                 escaneo.nextLine();
             }while(escaneo.hasNextLine());
         }
+        archivo = new File("datosGuardados/datosCitas.txt");
+        if (archivo.exists()){
+            Scanner escaneo = new Scanner(archivo);
+            escaneo.useDelimiter("%-%");
+            do{
+                listaCitas.add(new cita(Integer.parseInt(escaneo.next()),Integer.parseInt(escaneo.next()),Integer.parseInt(escaneo.next()),Integer.parseInt(escaneo.next()),Integer.parseInt(escaneo.next()),Integer.parseInt(escaneo.next()),Integer.parseInt(escaneo.next())));
+                escaneo.nextLine();
+            }while(escaneo.hasNextLine());
+        }
     }
     public void guardarDoctor(edificio hospital, String nombreLocal, String especialidadLocal, int experienciaLocal, float presupuestoLocal) throws IOException {
         File archivo = new File("datosGuardados/datosDoctores.txt");
@@ -196,16 +205,21 @@ class programa{
         }
         FileWriter fw = new FileWriter(archivo);
         PrintWriter pw = new PrintWriter(fw);
+        //int pacienteLocal,int doctorLocal, int minutosLocal, int horasLocal, int mesLocal, int diaLocal, int yearlocal
         for (int i = 0; i < hospital.listaCitas.size(); i++) {
-            pw.println(hospital.listaCitas.get(i).numeroYear+"%-%"+hospital.listaCitas.get(i).numeroMes+"%-%"+hospital.listaCitas.get(i).numeroDia+"%-%"+hospital.listaCitas.get(i).horarioHoras+"%-%"+hospital.listaCitas.get(i).horarioMinutos+"%-%"+hospital.listaCitas.get(i).doctorAtender+"%-%"+hospital.listaCitas.get(i).pacienteAtender+"%-%");
+            pw.println(hospital.listaCitas.get(i).pacienteAtender+"%-%"+hospital.listaCitas.get(i).doctorAtender+"%-%"+hospital.listaCitas.get(i).horarioMinutos+"%-%"+hospital.listaCitas.get(i).horarioHoras+"%-%"+hospital.listaCitas.get(i).numeroMes+"%-%"+hospital.listaCitas.get(i).numeroDia+"%-%"+hospital.listaCitas.get(i).numeroYear);
         }
         pw.close();
     }
     public void eliminarCita(edificio Hospital) throws IOException{
 
     }
-    public void mostrarCitas(edificio Hospital) throwsIOException{
-        
+    public void mostrarCitas(edificio Hospital) throws IOException{
+        for (int i = 0; i < Hospital.listaCitas.size(); i++){
+            System.out.println("- "+Hospital.listaCitas.get(i).numeroDia+"/"+Hospital.listaCitas.get(i).numeroMes+"/"+Hospital.listaCitas.get(i).numeroYear);
+            System.out.println("   -Doctor: "+Hospital.listaDoctores.get(Hospital.listaCitas.get(i).doctorAtender).nombre);
+            System.out.println("   -Paciente: "+Hospital.listaPacientes.get(Hospital.listaCitas.get(i).pacienteAtender).nombre+"de "+""+"años");
+        }
     }
     public void darAltaPaciente(edificio hospital, int idPaciente){
         //Si hay pacientes
@@ -257,8 +271,12 @@ public class Main {
         //pagina.mostrarListaDoctores(hospital);
         System.out.println(personaUtilizaPrograma.nombreUsuario);
         System.out.println(personaUtilizaPrograma.password);
+        hospital.cargarDatos();
+        System.out.println(hospital.listaCitas.get(0).numeroDia);
+        //hospital.cargarDatos();
+        //pagina.mostrarCitas(hospital);
         if (pagina.obtenerAcceso(personaUtilizaPrograma)){
-            hospital.cargarDatos();
+
             do{
                 System.out.println("Opciones para el "+hospital.nombre);
                 System.out.println("1. Agendar una cita");
