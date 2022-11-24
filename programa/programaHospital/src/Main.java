@@ -185,29 +185,35 @@ class usuario{
 //Clase MAIN
 public class Main {
     public static void main(String[] args) throws IOException {
+        BufferedReader entrada = new BufferedReader(new InputStreamReader(System.in));
         usuario personaUtilizaPrograma = new usuario("","");
         edificio hospital = new edificio("Hospital Angeles");
         personaUtilizaPrograma.guardarDatos("Rosa","1234");
         personaUtilizaPrograma.cargarDatos();
         programa pagina = new programa();
         String opciones = "";
-        hospital.cargarDatos();
-        hospital.guardarDoctor(hospital,"dr alguien","Medicina",2,1234);
-        pagina.mostrarListaDoctores(hospital);
-        /*
+        //hospital.guardarDoctor(hospital,"dr alguien","Medicina",2,1234);
+        //pagina.mostrarListaDoctores(hospital);
         System.out.println(personaUtilizaPrograma.nombreUsuario);
         System.out.println(personaUtilizaPrograma.password);
         if (pagina.obtenerAcceso(personaUtilizaPrograma)){
+            hospital.cargarDatos();
             do{
-                System.out.println("Opciones");
+                System.out.println("Opciones para el "+hospital.nombre);
                 System.out.println("1. Agendar una cita");
                 System.out.println("2. Dar de alta a un doctor");
                 System.out.println("3. Dar de alta a un paciente");
                 System.out.println("4. Cerrar Sesion");
-                opciones = "0";
-            }while(opciones.charAt(0) != '0');
+                System.out.print("Ingresar el numero de opcion: ");
+                opciones = entrada.readLine();
+                if (opciones.isEmpty()){
+                    System.out.println("Favor de introducir algo");
+                    entrada.readLine();
+                    opciones = "0";
+                }
+            }while(opciones.charAt(0) != '4');
         }else{
             System.out.println("Error al intentar entrar");
-        }*/
+        }
     }
 }
