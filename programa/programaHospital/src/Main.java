@@ -139,8 +139,15 @@ class programa{
     public void agendarCita(edificio hospital) throws IOException{
         BufferedReader entrada = new BufferedReader(new InputStreamReader(System.in));
         String opcion = "";
-        paciente pRegistrado = new paciente("","",0,true);
-        int idDoctor;
+        String nombrePaciente = "";
+        String asuntoPaciente = "";
+        int edadPaciente = 0;
+        int idDoctor = 0;
+        int minutosLocal = 0;
+        int horasLocal = 0;
+        int mesLocal = 0;
+        int yearLocal = 0;
+        int diaLocal = 0;
         //Despues de introducir los datos del paciente
         //Si hay doctores
         if (!hospital.listaDoctores.isEmpty()){
@@ -149,6 +156,31 @@ class programa{
             try{
                 Integer.parseInt("1");
                 idDoctor = Integer.parseInt(entrada.readLine());
+            }catch(Exception e){
+                System.out.println("Ocurrio un error");
+            }
+            System.out.println("---INGRESANDO DATOS DE PACIENTE---");
+            try{
+                System.out.print("Nombre del paciente: ");
+                nombrePaciente = entrada.readLine();
+                System.out.println("Asunto: ");
+                asuntoPaciente = entrada.readLine();
+                System.out.println("Edad: ");
+                edadPaciente = Integer.parseInt(entrada.readLine());
+                System.out.println("---INGRESANDO DATOS DE FECHA---");
+                System.out.print("Año: ");
+                yearLocal = Integer.parseInt(entrada.readLine());
+                System.out.print("Mes: ");
+                mesLocal = Integer.parseInt(entrada.readLine());
+                System.out.print("Dia: ");
+                diaLocal = Integer.parseInt(entrada.readLine());
+                System.out.println("La hora en horas: ");
+                horasLocal = Integer.parseInt(entrada.readLine());
+                System.out.print("La hora en minutos: ");
+                minutosLocal = Integer.parseInt(entrada.readLine());
+                paciente registrarPaciente = new paciente(nombrePaciente,asuntoPaciente,edadPaciente,true);
+                hospital.listaPacientes.add(registrarPaciente);
+                hospital.listaCitas.add(new cita(registrarPaciente,hospital.listaDoctores.get(idDoctor),minutosLocal,horasLocal,mesLocal,diaLocal,yearLocal));
             }catch(Exception e){
                 System.out.println("Ocurrio un error");
             }
