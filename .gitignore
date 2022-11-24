@@ -24,3 +24,4 @@ datosGuardados.*
 hs_err_pid*
 datosGuardados/datosMedicos.txt
 datosGuardados/datosDoctores.txt
+datosGuardados/datosCitas.txt

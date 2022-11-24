@@ -201,6 +201,12 @@ class programa{
         }
         pw.close();
     }
+    public void eliminarCita(edificio Hospital) throws IOException{
+
+    }
+    public void mostrarCitas(edificio Hospital) throwsIOException{
+        
+    }
     public void darAltaPaciente(edificio hospital, int idPaciente){
         //Si hay pacientes
         if (!hospital.listaPacientes.isEmpty()){
