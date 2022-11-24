@@ -74,7 +74,7 @@ class programa{
 
     }
     //Dar de alta a los doctores/despedir
-    public void acceder(usuario datosUsuario) throws IOException{
+    public boolean obtenerAcceso(usuario datosUsuario) throws IOException{
         boolean sesionActiva = false;
         String nombreIntroducido = "";
         String passwordIntroducido = "";
@@ -84,13 +84,9 @@ class programa{
         passwordIntroducido = entrada.readLine();
         //Para introducir los datos
         if (verificar(datosUsuario,nombreIntroducido,passwordIntroducido)) {
-            //Verifica si el usuario esta autorizado o no
-            if (datosUsuario.autorizado == true) {
-                System.out.println("Acceso al usuario consedido");
-                sesionActiva = true;
-            } else {
-                System.out.println("El usuario no esta autorizado");
-            }
+            return true;
+        }else{
+            return false;
         }
     }
     private boolean verificar(usuario datosUsuario, String nombreIntroducido, String passwordIntroducido){
@@ -136,16 +132,15 @@ class programa{
 class usuario{
     public String password = "";
     public String nombreUsuario = "";
-    public boolean autorizado = false;
-    public usuario(String contraLocal, String nombreLocal,boolean autorizadoLocal){
+    public usuario(String contraLocal, String nombreLocal){
         password = contraLocal;
         nombreUsuario = nombreLocal;
-        autorizado = autorizadoLocal;
     }
 }
 //Clase MAIN
 public class Main {
     public static void main(String[] args) {
-
+        usuario personaUtilizaPrograma = new usuario("123456789","RosarioVillaMosa");
+        
     }
 }
