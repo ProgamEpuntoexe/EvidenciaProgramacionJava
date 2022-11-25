@@ -294,9 +294,6 @@ class programa{
         }
         pw.close();
     }
-    public void eliminarCita(edificio Hospital, int idDoctor) throws IOException{
-
-    }
     public void mostrarCitas(edificio Hospital) throws IOException{
         for (int i = 0; i < Hospital.listaCitas.size(); i++){
             System.out.println((i+1)+".  -"+Hospital.listaCitas.get(i).numeroDia+"/"+Hospital.listaCitas.get(i).numeroMes+"/"+Hospital.listaCitas.get(i).numeroYear);
@@ -304,13 +301,38 @@ class programa{
             System.out.println("    -Paciente: "+Hospital.listaPacientes.get(Hospital.listaCitas.get(i).pacienteAtender).nombre+" de "+Hospital.listaPacientes.get(Hospital.listaCitas.get(i).pacienteAtender).edad+" años");
         }
     }
-    public void darAltaPaciente(edificio hospital, int idPaciente){
-        //Si hay pacientes
-        if (!hospital.listaPacientes.isEmpty()){
-            hospital.listaPacientes.remove(idPaciente);
-        }else{
-            System.out.println("No hay pacientes");
+    public void darAltaPaciente(edificio hospital, int idPaciente) throws IOException{
+        hospital.listaPacientes.remove(idPaciente-1);
+        File archivo = new File("datosGuardados/datosDoctores.txt");
+        if (archivo.exists()) {
+            if (!archivo.exists()) {
+                archivo.createNewFile();
+            }
+            FileWriter fw = new FileWriter(archivo);
+            PrintWriter pw = new PrintWriter(fw);
+            for (int i = 0; i < hospital.listaDoctores.size(); i++) {
+                pw.println(hospital.listaPacientes.get(i).nombre+"%-%"+hospital.listaPacientes.get(i).asunto+"%-%"+hospital.listaPacientes.get(i).edad+"%-%"+hospital.listaPacientes.get(i).citado+"%-%");
+            }
+            pw.close();
         }
+        eliminarCitaPaciente(hospital, idPaciente);
+    }
+    private void eliminarCitaPaciente(edificio hospital, int idPaciente) throws IOException{
+        for (int i = 0; i < hospital.listaCitas.size(); i++){
+            if (hospital.listaCitas.get(i).pacienteAtender == idPaciente-1){
+                hospital.listaCitas.remove(i);
+            }
+        }
+        File archivo = new File("datosGuardados/datosCitas.txt");
+        if (!archivo.exists()) {
+            archivo.createNewFile();
+        }
+        FileWriter fw = new FileWriter(archivo);
+        PrintWriter pw = new PrintWriter(fw);
+        for (int i = 0; i < hospital.listaCitas.size(); i++) {
+            pw.println(hospital.listaCitas.get(i).pacienteAtender+"%-%"+hospital.listaCitas.get(i).doctorAtender+"%-%"+hospital.listaCitas.get(i).horarioMinutos+"%-%"+hospital.listaCitas.get(i).horarioHoras+"%-%"+hospital.listaCitas.get(i).numeroMes+"%-%"+hospital.listaCitas.get(i).numeroDia+"%-%"+hospital.listaCitas.get(i).numeroYear+"%-%");
+        }
+        pw.close();
     }
 }
 //Clase Usuario
