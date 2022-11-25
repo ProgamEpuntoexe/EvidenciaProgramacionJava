@@ -71,10 +71,10 @@ class edificio{
         if (archivo.exists()){
             Scanner escaneo = new Scanner(archivo);
             escaneo.useDelimiter("%-%");
-            do{
+            while(escaneo.hasNext()){
                 listaDoctores.add(new doctor(escaneo.next(),escaneo.next(),Integer.parseInt(escaneo.next()),Float.parseFloat(escaneo.next()),Boolean.parseBoolean(escaneo.next())));
                 escaneo.nextLine();
-            }while(escaneo.hasNext());
+            }
         }
         archivo = new File("datosGuardados/datosCitas.txt");
         if (archivo.exists()){
@@ -333,6 +333,12 @@ class programa{
         }
         pw.close();
     }
+    public void mostrarListaPacientes(edificio hospital){
+        for (int i = 0; i < hospital.listaPacientes.size(); i++){
+            hospital.listaPacientes.get(i);
+            System.out.println((i+1)+". "+hospital.listaPacientes.get(i).nombre+" /edad: "+hospital.listaPacientes.get(i).edad+" /Motivo: "+hospital.listaPacientes.get(i).asunto);
+        }
+    }
 }
 //Clase Usuario
 class usuario{
@@ -413,13 +419,23 @@ public class Main {
                             //pagina.darAltaDoctor();
                             break;
                         }
-                        case '3'{
+                        case '3':{
                             pagina.mostrarListaPacientes(hospital);
+                            try{
+                                System.out.print("Seleccione el ID del paciente a dar de alta: ");
+                                pagina.darAltaPaciente(hospital, Integer.parseInt(entrada.readLine()));
+                            }catch (Exception e){
+                                System.out.println("Hubo un error al dar de alta");
+                            }
+                            break;
                         }
                         case '4':{
                             pagina.mostrarCitas(hospital);
                             entrada.readLine();
                             break;
+                        }
+                        case '5':{
+
                         }
                     }
                 }
