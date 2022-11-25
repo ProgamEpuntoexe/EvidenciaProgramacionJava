@@ -80,19 +80,19 @@ class edificio{
         if (archivo.exists()){
             Scanner escaneo = new Scanner(archivo);
             escaneo.useDelimiter("%-%");
-            do{
+            while(escaneo.hasNext()){
                 listaCitas.add(new cita(Integer.parseInt(escaneo.next()),Integer.parseInt(escaneo.next()),Integer.parseInt(escaneo.next()),Integer.parseInt(escaneo.next()),Integer.parseInt(escaneo.next()),Integer.parseInt(escaneo.next()),Integer.parseInt(escaneo.next())));
                 escaneo.nextLine();
-            }while(escaneo.hasNext());
+            }
         }
         archivo = new File("datosGuardados/datosPacientes.txt");
         if (archivo.exists()){
             Scanner escaneo = new Scanner(archivo);
             escaneo.useDelimiter("%-%");
-            do{
+            while(escaneo.hasNext()){
                 listaPacientes.add(new paciente(escaneo.next(),escaneo.next(),Integer.parseInt(escaneo.next()),Boolean.parseBoolean(escaneo.next())));
                 escaneo.nextLine();
-            }while(escaneo.hasNext());
+            }
         }
     }
     public void guardarDoctor(edificio hospital, String nombreLocal, String especialidadLocal, int experienciaLocal, float presupuestoLocal) throws IOException {
@@ -381,10 +381,6 @@ public class Main {
         System.out.println(personaUtilizaPrograma.nombreUsuario);
         System.out.println(personaUtilizaPrograma.password);
         hospital.cargarDatos();
-        //System.out.println(hospital.listaCitas.get(0).numeroDia);
-        //hospital.cargarDatos();
-        System.out.println(hospital.listaPacientes.get(0));
-        pagina.mostrarCitas(hospital);
         if (pagina.obtenerAcceso(personaUtilizaPrograma)){
 
             do{
