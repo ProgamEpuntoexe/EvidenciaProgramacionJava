@@ -457,7 +457,6 @@ public class Main {
                                 idCita = Integer.parseInt(entrada.readLine());
                                 pagina.eliminarCita(hospital, idCita);
                                 hospital.cambioDisponibilidad(hospital.listaCitas.get(idCita).doctorAtender, true);
-
                             }catch(Exception e){
                                 System.out.println("Hubo un error al eliminar la cita");
                             }
