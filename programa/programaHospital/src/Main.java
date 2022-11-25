@@ -89,23 +89,19 @@ class edificio{
     public void guardarDoctor(edificio hospital, String nombreLocal, String especialidadLocal, int experienciaLocal, float presupuestoLocal) throws IOException {
         File archivo = new File("datosGuardados/datosDoctores.txt");
         hospital.listaDoctores.add(new doctor(nombreLocal,especialidadLocal,experienciaLocal,presupuestoLocal,true));
-        if (archivo.exists()) {
-            if (!archivo.exists()) {
-                archivo.createNewFile();
-            }
-            FileWriter fw = new FileWriter(archivo);
-            PrintWriter pw = new PrintWriter(fw);
-            for (int i = 0; i < hospital.listaDoctores.size(); i++) {
-                pw.println(hospital.listaDoctores.get(i).nombre + "%-%" + hospital.listaDoctores.get(i).especialidad + "%-%" + hospital.listaDoctores.get(i).experiencia + "%-%" + hospital.listaDoctores.get(i).presupuesto + "%-%"+true+"%-%");
-            }
-            pw.close();
+        if (!archivo.exists()) {
+            archivo.createNewFile();
         }
+        FileWriter fw = new FileWriter(archivo);
+        PrintWriter pw = new PrintWriter(fw);
+        for (int i = 0; i < hospital.listaDoctores.size(); i++) {
+            pw.println(hospital.listaDoctores.get(i).nombre + "%-%" + hospital.listaDoctores.get(i).especialidad + "%-%" + hospital.listaDoctores.get(i).experiencia + "%-%" + hospital.listaDoctores.get(i).presupuesto + "%-%"+true+"%-%");
+        }
+        pw.close();
     }
     public void cambioDisponibilidad(int idDoctor, boolean cambioDisponibilidad) throws IOException{
         listaDoctores.get(idDoctor).disponible = cambioDisponibilidad;
-        System.out.println("--------"+listaDoctores.get(idDoctor).disponible);
         File archivo = new File("datosGuardados/datosDoctores.txt");
-        if (archivo.exists()) {
             if (!archivo.exists()) {
                 archivo.createNewFile();
             }
@@ -116,7 +112,6 @@ class edificio{
             }
             pw.close();
         }
-    }
 }
 //Clase programa
 class programa{
@@ -170,9 +165,13 @@ class programa{
         }
     }
     public void darAltaDoctor(edificio hospital, int idDoctor) throws IOException{
+        for (int i = 0; i < hospital.listaCitas.size(); i++){
+            if (hospital.listaCitas.get(i).doctorAtender == idDoctor-1){
+                darAltaPaciente(hospital, hospital.listaCitas.get(i).pacienteAtender+1);
+            }
+        }
         hospital.listaDoctores.remove(idDoctor-1);
         File archivo = new File("datosGuardados/datosDoctores.txt");
-        if (archivo.exists()) {
             if (!archivo.exists()) {
                 archivo.createNewFile();
             }
@@ -182,7 +181,6 @@ class programa{
                 pw.println(hospital.listaDoctores.get(i).nombre + "%-%" + hospital.listaDoctores.get(i).especialidad + "%-%" + hospital.listaDoctores.get(i).experiencia + "%-%" + hospital.listaDoctores.get(i).presupuesto + "%-%"+true+"%-%");
             }
             pw.close();
-        }
         eliminarCitaDoctor(hospital, idDoctor);
     }
     private void eliminarCitaDoctor(edificio hospital, int idDoctor) throws IOException{
@@ -201,6 +199,7 @@ class programa{
             pw.println(hospital.listaCitas.get(i).pacienteAtender+"%-%"+hospital.listaCitas.get(i).doctorAtender+"%-%"+hospital.listaCitas.get(i).horarioMinutos+"%-%"+hospital.listaCitas.get(i).horarioHoras+"%-%"+hospital.listaCitas.get(i).numeroMes+"%-%"+hospital.listaCitas.get(i).numeroDia+"%-%"+hospital.listaCitas.get(i).numeroYear+"%-%");
         }
         pw.close();
+
     }
     public void agendarCita(edificio hospital) throws IOException{
         BufferedReader entrada = new BufferedReader(new InputStreamReader(System.in));
@@ -285,6 +284,9 @@ class programa{
         pw.close();
     }
     public void mostrarCitas(edificio Hospital) throws IOException{
+        if (Hospital.listaCitas.isEmpty()){
+            System.out.println("No hay citas registradas");
+        }
         for (int i = 0; i < Hospital.listaCitas.size(); i++){
             System.out.println((i+1)+".  -"+Hospital.listaCitas.get(i).numeroDia+"/"+Hospital.listaCitas.get(i).numeroMes+"/"+Hospital.listaCitas.get(i).numeroYear);
             System.out.println("    -Doctor: "+Hospital.listaDoctores.get(Hospital.listaCitas.get(i).doctorAtender).nombre);
@@ -293,23 +295,22 @@ class programa{
     }
     public void darAltaPaciente(edificio hospital, int idPaciente) throws IOException{
         hospital.listaPacientes.remove(idPaciente-1);
-        File archivo = new File("datosGuardados/datosDoctores.txt");
-        if (archivo.exists()) {
+        File archivo = new File("datosGuardados/datosPacientes.txt");
             if (!archivo.exists()) {
                 archivo.createNewFile();
             }
             FileWriter fw = new FileWriter(archivo);
             PrintWriter pw = new PrintWriter(fw);
-            for (int i = 0; i < hospital.listaDoctores.size(); i++) {
+            for (int i = 0; i < hospital.listaPacientes.size(); i++) {
                 pw.println(hospital.listaPacientes.get(i).nombre+"%-%"+hospital.listaPacientes.get(i).asunto+"%-%"+hospital.listaPacientes.get(i).edad+"%-%"+hospital.listaPacientes.get(i).citado+"%-%");
             }
             pw.close();
-        }
         eliminarCitaPaciente(hospital, idPaciente);
     }
     private void eliminarCitaPaciente(edificio hospital, int idPaciente) throws IOException{
         for (int i = 0; i < hospital.listaCitas.size(); i++){
             if (hospital.listaCitas.get(i).pacienteAtender == idPaciente-1){
+                hospital.listaDoctores.get(hospital.listaCitas.get(i).doctorAtender).disponible = true;
                 hospital.listaCitas.remove(i);
             }
         }
@@ -323,11 +324,21 @@ class programa{
             pw.println(hospital.listaCitas.get(i).pacienteAtender+"%-%"+hospital.listaCitas.get(i).doctorAtender+"%-%"+hospital.listaCitas.get(i).horarioMinutos+"%-%"+hospital.listaCitas.get(i).horarioHoras+"%-%"+hospital.listaCitas.get(i).numeroMes+"%-%"+hospital.listaCitas.get(i).numeroDia+"%-%"+hospital.listaCitas.get(i).numeroYear+"%-%");
         }
         pw.close();
+        archivo = new File("datosGuardados/datosDoctores.txt");
+        if (!archivo.exists()) {
+            archivo.createNewFile();
+        }
+        fw = new FileWriter(archivo);
+        pw = new PrintWriter(fw);
+        for (int i = 0; i < hospital.listaDoctores.size(); i++) {
+            pw.println(hospital.listaDoctores.get(i).nombre + "%-%" + hospital.listaDoctores.get(i).especialidad + "%-%" + hospital.listaDoctores.get(i).experiencia + "%-%" + hospital.listaDoctores.get(i).presupuesto + "%-%"+hospital.listaDoctores.get(i).disponible+"%-%");
+        }
+        pw.close();
     }
     public void mostrarListaPacientes(edificio hospital){
         for (int i = 0; i < hospital.listaPacientes.size(); i++){
             hospital.listaPacientes.get(i);
-            System.out.println((i+1)+". "+hospital.listaPacientes.get(i).nombre+" /edad: "+hospital.listaPacientes.get(i).edad+" /Motivo: "+hospital.listaPacientes.get(i).asunto);
+            System.out.println((i+1)+". "+hospital.listaPacientes.get(i).nombre+" |edad: "+hospital.listaPacientes.get(i).edad+" |Motivo: "+hospital.listaPacientes.get(i).asunto);
         }
     }
     public void eliminarCita(edificio hospital, int idCita) throws IOException{
@@ -358,6 +369,9 @@ class usuario{
             Scanner escaneo = new Scanner(archivo);
             nombreUsuario = escaneo.nextLine();
             password = escaneo.nextLine();
+        }else{
+            nombreUsuario = "Rosa";
+            password = "1234";
         }
     }
     public void guardarDatos(String nombre, String password) throws IOException{
@@ -376,7 +390,7 @@ class usuario{
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader entrada = new BufferedReader(new InputStreamReader(System.in));
-        usuario personaUtilizaPrograma = new usuario("","");
+        usuario personaUtilizaPrograma = new usuario("Rosa","1234");
         edificio hospital = new edificio("Hospital Angeles");
         personaUtilizaPrograma.cargarDatos();
         programa pagina = new programa();
@@ -387,8 +401,6 @@ public class Main {
         int experiencia = 1;
         float presupuesto = 0.0f;
         //hospital.guardarDoctor(hospital,"dr alguien","Medicina",2,1234);
-        System.out.println(personaUtilizaPrograma.nombreUsuario);
-        System.out.println(personaUtilizaPrograma.password);
         hospital.cargarDatos();
         if (pagina.obtenerAcceso(personaUtilizaPrograma)){
 
