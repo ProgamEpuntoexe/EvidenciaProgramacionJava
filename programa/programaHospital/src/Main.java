@@ -58,7 +58,7 @@ class edificio{
         nombre = nombreLocal;
     }
     public void cargarDatos() throws IOException{
-        File archivo = new File("datosGuardados/datosDoctores.txt");
+        File archivo = new File("db/datosDoctores.txt");
         if (archivo.exists()){
             Scanner escaneo = new Scanner(archivo);
             escaneo.useDelimiter("%-%");
@@ -67,7 +67,7 @@ class edificio{
                 escaneo.nextLine();
             }
         }
-        archivo = new File("datosGuardados/datosCitas.txt");
+        archivo = new File("db/datosCitas.txt");
         if (archivo.exists()){
             Scanner escaneo = new Scanner(archivo);
             escaneo.useDelimiter("%-%");
@@ -76,7 +76,7 @@ class edificio{
                 escaneo.nextLine();
             }
         }
-        archivo = new File("datosGuardados/datosPacientes.txt");
+        archivo = new File("db/datosPacientes.txt");
         if (archivo.exists()){
             Scanner escaneo = new Scanner(archivo);
             escaneo.useDelimiter("%-%");
@@ -87,7 +87,7 @@ class edificio{
         }
     }
     public void guardarDoctor(edificio hospital, String nombreLocal, String especialidadLocal, int experienciaLocal, float presupuestoLocal) throws IOException {
-        File archivo = new File("datosGuardados/datosDoctores.txt");
+        File archivo = new File("db/datosDoctores.txt");
         hospital.listaDoctores.add(new doctor(nombreLocal,especialidadLocal,experienciaLocal,presupuestoLocal,true));
         if (!archivo.exists()) {
             archivo.createNewFile();
@@ -101,7 +101,7 @@ class edificio{
     }
     public void cambioDisponibilidad(int idDoctor, boolean cambioDisponibilidad) throws IOException{
         listaDoctores.get(idDoctor).disponible = cambioDisponibilidad;
-        File archivo = new File("datosGuardados/datosDoctores.txt");
+        File archivo = new File("db/datosDoctores.txt");
             if (!archivo.exists()) {
                 archivo.createNewFile();
             }
@@ -171,7 +171,7 @@ class programa{
             }
         }
         hospital.listaDoctores.remove(idDoctor-1);
-        File archivo = new File("datosGuardados/datosDoctores.txt");
+        File archivo = new File("db/datosDoctores.txt");
             if (!archivo.exists()) {
                 archivo.createNewFile();
             }
@@ -189,7 +189,7 @@ class programa{
                 hospital.listaCitas.remove(i);
             }
         }
-        File archivo = new File("datosGuardados/datosCitas.txt");
+        File archivo = new File("db/datosCitas.txt");
         if (!archivo.exists()) {
             archivo.createNewFile();
         }
@@ -257,7 +257,7 @@ class programa{
         }
     }
     private void guardarCita(edificio hospital) throws IOException{
-        File archivo = new File("datosGuardados/datosCitas.txt");
+        File archivo = new File("db/datosCitas.txt");
         if (!archivo.exists()) {
             archivo.createNewFile();
         }
@@ -270,7 +270,7 @@ class programa{
         pw.close();
     }
     private void guardarPaciente(edificio hospital) throws IOException{
-        File archivo = new File("datosGuardados/datosPacientes.txt");
+        File archivo = new File("db/datosPacientes.txt");
         if (!archivo.exists()) {
             archivo.createNewFile();
         }
@@ -295,7 +295,7 @@ class programa{
     }
     public void darAltaPaciente(edificio hospital, int idPaciente) throws IOException{
         hospital.listaPacientes.remove(idPaciente-1);
-        File archivo = new File("datosGuardados/datosPacientes.txt");
+        File archivo = new File("db/datosPacientes.txt");
             if (!archivo.exists()) {
                 archivo.createNewFile();
             }
@@ -314,7 +314,7 @@ class programa{
                 hospital.listaCitas.remove(i);
             }
         }
-        File archivo = new File("datosGuardados/datosCitas.txt");
+        File archivo = new File("db/datosCitas.txt");
         if (!archivo.exists()) {
             archivo.createNewFile();
         }
@@ -324,7 +324,7 @@ class programa{
             pw.println(hospital.listaCitas.get(i).pacienteAtender+"%-%"+hospital.listaCitas.get(i).doctorAtender+"%-%"+hospital.listaCitas.get(i).horarioMinutos+"%-%"+hospital.listaCitas.get(i).horarioHoras+"%-%"+hospital.listaCitas.get(i).numeroMes+"%-%"+hospital.listaCitas.get(i).numeroDia+"%-%"+hospital.listaCitas.get(i).numeroYear+"%-%");
         }
         pw.close();
-        archivo = new File("datosGuardados/datosDoctores.txt");
+        archivo = new File("db/datosDoctores.txt");
         if (!archivo.exists()) {
             archivo.createNewFile();
         }
@@ -343,7 +343,7 @@ class programa{
     }
     public void eliminarCita(edificio hospital, int idCita) throws IOException{
         hospital.listaCitas.remove(idCita-1);
-        File archivo = new File("datosGuardados/datosCitas.txt");
+        File archivo = new File("db/datosCitas.txt");
         if (!archivo.exists()) {
             archivo.createNewFile();
         }
@@ -364,7 +364,7 @@ class usuario{
         nombreUsuario = nombreLocal;
     }
     public void cargarDatos() throws FileNotFoundException {
-        File archivo = new File("datosGuardados/datosUsuario.txt");
+        File archivo = new File("db/datosUsuario.txt");
         if (archivo.exists()){
             Scanner escaneo = new Scanner(archivo);
             nombreUsuario = escaneo.nextLine();
@@ -375,7 +375,7 @@ class usuario{
         }
     }
     public void guardarDatos(String nombre, String password) throws IOException{
-        File archivo = new File("datosGuardados/datosUsuario.txt");
+        File archivo = new File("db/datosUsuario.txt");
         if (!archivo.exists()){
             archivo.createNewFile();
         }
