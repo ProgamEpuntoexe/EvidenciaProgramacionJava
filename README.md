@@ -17,7 +17,7 @@ Branch develop
 • Acerca de:
 Esta es una aplicacion que consiste en un programa para manejar datos de hospital, desde doctores hasta las citas de estos mismos
 
-• Diagramas de flujo: ![This is an image](/assets/images/electrocat.png)
+• Diagramas de flujo: ![This is an image](/diagramaClasesEvidencia.png)
 
 • Guia para hacer funcionar la aplicacion:
 >Para hacer que la aplicacion funcione primero tiene que ingresar los datos de usuario (El usuario es Rosa y la contraseña es 1234, puede cambiarlo luego)
