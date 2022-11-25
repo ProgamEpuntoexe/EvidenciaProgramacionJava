@@ -48,15 +48,6 @@ class cita {
         numeroYear = yearlocal;
     }
 }
-//Clase recepcion
-class recepcion{
-    public String nombreRecepcionista = "";
-    public float presupuesto = 0.0f;
-    public recepcion(String nombreLocal, float presupuestoLocal){
-        nombreRecepcionista = nombreLocal;
-        presupuesto = presupuestoLocal;
-    }
-}
 //Clase edificio
 class edificio{
     public ArrayList<doctor> listaDoctores = new ArrayList<doctor>();
