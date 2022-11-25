@@ -475,6 +475,7 @@ public class Main {
                             }catch (Exception e){
                                 System.out.println("Hubo un error al cambiar los datos");
                             }
+                            break;
                         }
                         case 'g':{
                             try{
