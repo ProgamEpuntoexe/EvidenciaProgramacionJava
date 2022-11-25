@@ -387,9 +387,10 @@ public class Main {
                 System.out.println("1. Agendar una cita");
                 System.out.println("2. Dar de alta a un doctor");
                 System.out.println("3. Dar de alta a un paciente");
-                System.out.println("4. ver citas");
+                System.out.println("4. Ver citas");
                 System.out.println("5. Eliminar una cita");
-                System.out.println("6. Cerrar Sesion");
+                System.out.println("6. Cambiar datos de Usuario");
+                System.out.println("7. Cerrar Sesion");
                 System.out.print("Ingresar el numero de opcion: ");
                 opciones = entrada.readLine();
                 if (opciones.isEmpty()){
@@ -412,6 +413,9 @@ public class Main {
                             }
                             //pagina.darAltaDoctor();
                             break;
+                        }
+                        case '3'{
+                            pagina.mostrar
                         }
                         case '4':{
                             pagina.mostrarCitas(hospital);
