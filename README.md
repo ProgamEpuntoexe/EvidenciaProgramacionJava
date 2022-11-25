@@ -12,3 +12,28 @@ Branch develop
   
 • Licencia.
   Sin Licensia
+
+# WIKI
+• Acerca de:
+Esta es una aplicacion que consiste en un programa para manejar datos de hospital, desde doctores hasta las citas de estos mismos
+
+• Guia para hacer funcionar la aplicacion:
+>Para hacer que la aplicacion funcione primero tiene que ingresar los datos de usuario (El usuario es Rosa y la contraseña es 1234, puede cambiarlo luego)
+>
+>Para poder crear una cita, priemro tiene que agregar un doctor (presione g), y luego introdusca los datos
+>
+>Para poder cambiar los datos de acceso de usuario, se tiene que presionar f y luego ingresar el nuevo usuario y contraseña
+
+
+
+
+
+
+
+
+
+
+
+
+
+
