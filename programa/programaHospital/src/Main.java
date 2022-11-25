@@ -436,7 +436,10 @@ public class Main {
                             break;
                         }
                         case '5':{
+                            pagina.mostrarCitas(hospital);
+                            System.out.print("Seleccione el ID de la cita a eliminar");
 
+                            entrada.readLine();
                         }
                         case '7':{
                             try{
