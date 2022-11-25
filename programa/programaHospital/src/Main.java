@@ -377,6 +377,10 @@ public class Main {
         personaUtilizaPrograma.cargarDatos();
         programa pagina = new programa();
         String opciones = "";
+        String nombre = "";
+        String especialidad = "";
+        int experiencia = 1;
+        float presupuesto = 0.0f;
         //hospital.guardarDoctor(hospital,"dr alguien","Medicina",2,1234);
         System.out.println(personaUtilizaPrograma.nombreUsuario);
         System.out.println(personaUtilizaPrograma.password);
@@ -391,7 +395,8 @@ public class Main {
                 System.out.println("4. Ver citas");
                 System.out.println("5. Eliminar una cita");
                 System.out.println("6. Cambiar datos de Usuario");
-                System.out.println("7. Cerrar Sesion");
+                System.out.println("7. Agregar un doctor");
+                System.out.println("8. Cerrar Sesion");
                 System.out.print("Ingresar el numero de opcion: ");
                 opciones = entrada.readLine();
                 if (opciones.isEmpty()){
@@ -432,6 +437,22 @@ public class Main {
                         }
                         case '5':{
 
+                        }
+                        case '7':{
+                            try{
+                                System.out.print("Ingresar el nombre del doctor: ");
+                                nombre = entrada.readLine();
+                                System.out.print("Ingresar la especialidad del doctor: ");
+                                especialidad = entrada.readLine();
+                                System.out.print("Ingresar la experiencia del doctor (En años): ");
+                                experiencia = Integer.parseInt(entrada.readLine());
+                                System.out.print("Ingresar el presupuesto del doctor: ");
+                                presupuesto = Float.parseFloat(entrada.readLine());
+                                hospital.guardarDoctor(hospital, nombre, especialidad, experiencia, presupuesto);
+                            }catch (Exception e){
+                                System.out.println("Hubo un error al registrar el doctor");
+                            }
+                            break;
                         }
                     }
                 }
