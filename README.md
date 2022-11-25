@@ -17,7 +17,7 @@ Branch develop
 • Acerca de:
 Esta es una aplicacion que consiste en un programa para manejar datos de hospital, desde doctores hasta las citas de estos mismos
 
-• Diagramas de flujo: ![This is an image][diagramaClasesEvidencia](https://user-images.githubusercontent.com/81495787/203882449-436ec7e9-a5a2-4120-b27d-c99b85c867e9.png)!
+• Diagramas: ![diagramaClasesEvidencia](https://user-images.githubusercontent.com/81495787/203882449-436ec7e9-a5a2-4120-b27d-c99b85c867e9.png)!
 
 
 • Guia para hacer funcionar la aplicacion:
