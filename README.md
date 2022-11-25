@@ -11,7 +11,7 @@ Branch develop
   Eduardo Daniel Ruelas Zaragoza
   
 • Licencia.
-  Sin Licensia
+  Puede ser modificable, y puede ser usado con fines comerciales y tambien personales, solo se requiere atribucion al proyecto, con el link al repositorio es suficiente
 
 # WIKI
 • Acerca de:
