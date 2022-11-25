@@ -339,6 +339,19 @@ class programa{
             System.out.println((i+1)+". "+hospital.listaPacientes.get(i).nombre+" /edad: "+hospital.listaPacientes.get(i).edad+" /Motivo: "+hospital.listaPacientes.get(i).asunto);
         }
     }
+    public void eliminarCita(edificio hospital, int idCita) throws IOException{
+        hospital.listaCitas.remove(idCita-1);
+        File archivo = new File("datosGuardados/datosCitas.txt");
+        if (!archivo.exists()) {
+            archivo.createNewFile();
+        }
+        FileWriter fw = new FileWriter(archivo);
+        PrintWriter pw = new PrintWriter(fw);
+        for (int i = 0; i < hospital.listaCitas.size(); i++) {
+            pw.println(hospital.listaCitas.get(i).pacienteAtender+"%-%"+hospital.listaCitas.get(i).doctorAtender+"%-%"+hospital.listaCitas.get(i).horarioMinutos+"%-%"+hospital.listaCitas.get(i).horarioHoras+"%-%"+hospital.listaCitas.get(i).numeroMes+"%-%"+hospital.listaCitas.get(i).numeroDia+"%-%"+hospital.listaCitas.get(i).numeroYear+"%-%");
+        }
+        pw.close();
+    }
 }
 //Clase Usuario
 class usuario{
@@ -379,6 +392,7 @@ public class Main {
         String opciones = "";
         String nombre = "";
         String especialidad = "";
+        String password = "";
         int experiencia = 1;
         float presupuesto = 0.0f;
         //hospital.guardarDoctor(hospital,"dr alguien","Medicina",2,1234);
@@ -389,14 +403,14 @@ public class Main {
 
             do{
                 System.out.println("Opciones para el "+hospital.nombre);
-                System.out.println("1. Agendar una cita");
-                System.out.println("2. Dar de alta a un doctor");
-                System.out.println("3. Dar de alta a un paciente");
-                System.out.println("4. Ver citas");
-                System.out.println("5. Eliminar una cita");
-                System.out.println("6. Cambiar datos de Usuario");
-                System.out.println("7. Agregar un doctor");
-                System.out.println("8. Cerrar Sesion");
+                System.out.println("a. Agendar una cita");
+                System.out.println("b. Dar de alta a un doctor");
+                System.out.println("c. Dar de alta a un paciente");
+                System.out.println("d. Ver citas");
+                System.out.println("e. Eliminar una cita");
+                System.out.println("f. Cambiar datos de Usuario");
+                System.out.println("g. Agregar un doctor");
+                System.out.println("h. Cerrar Sesion");
                 System.out.print("Ingresar el numero de opcion: ");
                 opciones = entrada.readLine();
                 if (opciones.isEmpty()){
@@ -405,11 +419,11 @@ public class Main {
                     opciones = "0";
                 }else{
                     switch(opciones.charAt(0)){
-                        case '1':{
+                        case 'a':{
                             pagina.agendarCita(hospital);
                             break;
                         }
-                        case '2':{
+                        case 'b':{
                             pagina.mostrarListaDoctores(hospital);
                             try{
                                 System.out.print("Seleccione el ID del doctor a dar de alta: ");
@@ -420,7 +434,7 @@ public class Main {
                             //pagina.darAltaDoctor();
                             break;
                         }
-                        case '3':{
+                        case 'c':{
                             pagina.mostrarListaPacientes(hospital);
                             try{
                                 System.out.print("Seleccione el ID del paciente a dar de alta: ");
@@ -430,18 +444,37 @@ public class Main {
                             }
                             break;
                         }
-                        case '4':{
+                        case 'd':{
                             pagina.mostrarCitas(hospital);
                             entrada.readLine();
                             break;
                         }
-                        case '5':{
-                            pagina.mostrarCitas(hospital);
-                            System.out.print("Seleccione el ID de la cita a eliminar");
+                        case 'e':{
+                            try{
+                                int idCita = 0;
+                                pagina.mostrarCitas(hospital);
+                                System.out.print("Seleccione el ID de la cita a eliminar");
+                                idCita = Integer.parseInt(entrada.readLine());
+                                pagina.eliminarCita(hospital, idCita);
+                                hospital.cambioDisponibilidad(hospital.listaCitas.get(idCita).doctorAtender, true);
 
-                            entrada.readLine();
+                            }catch(Exception e){
+                                System.out.println("Hubo un error al eliminar la cita");
+                            }
+                            break;
                         }
-                        case '7':{
+                        case 'f':{
+                            try{
+                                System.out.print("Ingrese el nuevo nombre de usuario: ");
+                                nombre = entrada.readLine();
+                                System.out.print("Ingrese la nueva contraseña: ");
+                                password = entrada.readLine();
+                                personaUtilizaPrograma.guardarDatos(nombre,password);
+                            }catch (Exception e){
+                                System.out.println("Hubo un error al cambiar los datos");
+                            }
+                        }
+                        case 'g':{
                             try{
                                 System.out.print("Ingresar el nombre del doctor: ");
                                 nombre = entrada.readLine();
@@ -459,7 +492,7 @@ public class Main {
                         }
                     }
                 }
-            }while(opciones.charAt(0) != '6');
+            }while(opciones.charAt(0) != 'h');
         }else{
             System.out.println("Error al intentar entrar");
         }
